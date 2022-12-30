@@ -7,6 +7,7 @@ from threading import Thread
 
 
 
+
 sdr = RtlSdr()
 
 # configure device
@@ -19,9 +20,12 @@ def get_samples_and_plot(_):
     # use matplotlib to estimate and plot the PSD
     ax.cla()
     samples = sdr.read_samples(256*1024)
+
+    # Fs and Fc are divided by 1e6 to make the legends nicer, since they are both divided by the same factor this doesn't mess any math up
+    # NFFT splits samples into 1024 "segments", idk what this really means though
     ax.psd(samples, NFFT=1024, Fs=sdr.sample_rate/1e6, Fc=sdr.center_freq/1e6)
-    # ax.xlabel('Frequency (MHz)')
-    # ax.ylabel('Relative power (dB)')
+    ax.set_xlabel('Frequency (MHz)')
+    ax.set_ylabel('Relative power (dB)')
 
 def get_center_freq():
     global sdr
