@@ -3,8 +3,12 @@
 # https://epxx.co/artigos/pythonfm_en.html
 
 import struct, numpy, sys, math
-from scipy.signal import resample_poly, firwin, bilinear, lfilter, decimate
+from scipy.signal import resample, decimate
 import sounddevice as sd
+from scipy.signal import butter, lfilter, freqz
+import filters
+from rtlsdr import *
+
 
 MAX_DEVIATION = 200000 # Hz
 INPUT_RATE = 256000
@@ -12,33 +16,33 @@ DEVIATION_X_SIGNAL = 0.99 / (math.pi * MAX_DEVIATION / (INPUT_RATE / 2))
 
 remaining_data = b''
 
+# His Method
+# lo_pass = filters.low_pass(INPUT_RATE, INPUT_RATE, 48)
+
+# My Method
+def build_butter_filter(cutoff, fs, order=24):
+    nyq = 0.5 * fs
+    normal_cutoff = cutoff / nyq
+    b, a = butter(order, normal_cutoff, btype='low', analog=False)
+    return b, a
+
+def apply_filter(b,a,x):
+    y = lfilter(b, a, x)
+    return y
+
+b,a = build_butter_filter(44100, INPUT_RATE)
+
+
+# configure device
+sdr = RtlSdr()
+sdr.sample_rate = INPUT_RATE
+sdr.center_freq = 104.7e6
+sdr.gain = 'auto'
+
 while True:
-    # Ingest up to 0.1s worth of data
-    data = sys.stdin.buffer.read(INPUT_RATE * 2 )
-    if not data:
-        break
-    data = remaining_data + data
-
-    if len(data) < 4:
-        remaining_data = data
-        continue
-
-    # Save one sample to next batch, and the odd byte if exists
-    if len(data) % 2 == 1:
-        print("Odd byte, that's odd", file=sys.stderr)
-        remaining_data = data[-3:]
-        data = data[:-1]
-    else:
-        remaining_data = data[-2:]
-
-    samples = len(data) // 2
-
-    # find angle (phase) of I/Q pairs
-    iqdata = numpy.frombuffer(data, dtype=numpy.uint8)
-    iqdata = iqdata - 127.5
-    iqdata = iqdata / 128.0
-    iqdata = iqdata.view(complex)
-
+    iqdata = sdr.read_samples(256000)
+    # iqdata = iqdata - 127.5
+    # iqdata = iqdata / 128.0
     angles = numpy.angle(iqdata)
 
     # Determine phase rotation between samples
@@ -53,14 +57,21 @@ while True:
     output_raw = numpy.multiply(rotations, DEVIATION_X_SIGNAL)
     output_raw = numpy.clip(output_raw, -0.999, +0.999)
 
-    # Scale to signed 16-bit int
+    # Works great, OG
+    # output_raw = numpy.multiply(output_raw, 32767)
+    # output_raw = output_raw.astype(numpy.int16)
+    # sd.play(output_raw, INPUT_RATE, blocking=False)
+
+    # My Method, Sounds even better than the OG
+    output_raw = apply_filter(b, a, output_raw)
     output_raw = numpy.multiply(output_raw, 32767)
     output_raw = output_raw.astype(numpy.int16)
+    sd.play(output_raw, INPUT_RATE, blocking=False)
 
-    # Kinda works but sounds fucking awful
-    output_raw = decimate(output_raw, int(INPUT_RATE/32000))
-    sd.play(output_raw, 32000, blocking=False)
-
-    # Works perfectly
-    # output_raw = decimate(output_raw, int(INPUT_RATE/32000))
-    # sd.play(output_raw, INPUT_RATE, blocking=False)
+    # Downsample this bitch, significant studdering
+    # output_raw = apply_filter(b, a, output_raw)
+    # output_raw = decimate(output_raw, int(INPUT_RATE/44100))
+    # output_raw = resample(output_raw, int(len(output_raw) * 44100/INPUT_RATE))
+    # output_raw = numpy.multiply(output_raw, 32767)
+    # output_raw = output_raw.astype(numpy.int16)
+    # sd.play(output_raw, 44100, blocking=False)
