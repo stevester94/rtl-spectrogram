@@ -6,7 +6,6 @@ import struct, numpy, sys, math
 from scipy.signal import resample, decimate
 import sounddevice as sd
 from scipy.signal import butter, lfilter, freqz
-import filters
 from rtlsdr import *
 
 
@@ -40,7 +39,7 @@ sdr.center_freq = 104.7e6
 sdr.gain = 'auto'
 
 while True:
-    iqdata = sdr.read_samples(256000)
+    iqdata = sdr.read_samples(INPUT_RATE)
     # iqdata = iqdata - 127.5
     # iqdata = iqdata / 128.0
     angles = numpy.angle(iqdata)
@@ -57,21 +56,31 @@ while True:
     output_raw = numpy.multiply(rotations, DEVIATION_X_SIGNAL)
     output_raw = numpy.clip(output_raw, -0.999, +0.999)
 
-    # Works great, OG
-    # output_raw = numpy.multiply(output_raw, 32767)
-    # output_raw = output_raw.astype(numpy.int16)
+    """
+    Various methods of processing the audio signal. Note that all of these suffer
+    decent amounts of studdering that do not appear to be a consequence of CPU.
+
+    I think it's something to do with number of samples read in at a time
+    """
+
+
+    """
+    No filtering, just slam the audio signal to the sound card at rate
+    """
     # sd.play(output_raw, INPUT_RATE, blocking=False)
 
-    # My Method, Sounds even better than the OG
+    """
+    Filter the signal, based on the butter filter taps generated above
+    But still send to sound card at rate.
+    """
     output_raw = apply_filter(b, a, output_raw)
-    output_raw = numpy.multiply(output_raw, 32767)
-    output_raw = output_raw.astype(numpy.int16)
     sd.play(output_raw, INPUT_RATE, blocking=False)
 
-    # Downsample this bitch, significant studdering
+    """
+    Attempt to downsample to 44100Hz.
+
+    Significant gaps on studder
+    """
     # output_raw = apply_filter(b, a, output_raw)
-    # output_raw = decimate(output_raw, int(INPUT_RATE/44100))
     # output_raw = resample(output_raw, int(len(output_raw) * 44100/INPUT_RATE))
-    # output_raw = numpy.multiply(output_raw, 32767)
-    # output_raw = output_raw.astype(numpy.int16)
     # sd.play(output_raw, 44100, blocking=False)
