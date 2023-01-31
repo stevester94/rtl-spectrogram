@@ -7,18 +7,10 @@ from scipy.signal import resample, decimate
 import sounddevice as sd
 from scipy.signal import butter, lfilter, freqz
 from rtlsdr import *
+from fm_demodulator import FM_Demodulator
 
-
-MAX_DEVIATION = 200000 # Hz
 INPUT_RATE = 256000
-DEVIATION_X_SIGNAL = 0.99 / (math.pi * MAX_DEVIATION / (INPUT_RATE / 2))
 
-remaining_data = b''
-
-# His Method
-# lo_pass = filters.low_pass(INPUT_RATE, INPUT_RATE, 48)
-
-# My Method
 def build_butter_filter(cutoff, fs, order=24):
     nyq = 0.5 * fs
     normal_cutoff = cutoff / nyq
@@ -29,7 +21,7 @@ def apply_filter(b,a,x):
     y = lfilter(b, a, x)
     return y
 
-b,a = build_butter_filter(44100, INPUT_RATE)
+b,a = build_butter_filter(22000, INPUT_RATE)
 
 
 # configure device
@@ -38,23 +30,14 @@ sdr.sample_rate = INPUT_RATE
 sdr.center_freq = 104.7e6
 sdr.gain = 'auto'
 
+# Configure Demodulator
+demod = FM_Demodulator(INPUT_RATE)
+
+holdover = None
 while True:
-    iqdata = sdr.read_samples(INPUT_RATE)
-    # iqdata = iqdata - 127.5
-    # iqdata = iqdata / 128.0
-    angles = numpy.angle(iqdata)
+    iqdata = sdr.read_samples(INPUT_RATE*2)
 
-    # Determine phase rotation between samples
-    # (Output one element less, that's we always save last sample
-    # in remaining_data)
-    rotations = numpy.ediff1d(angles)
-
-    # Wrap rotations >= +/-180º
-    rotations = (rotations + numpy.pi) % (2 * numpy.pi) - numpy.pi
-
-    # Convert rotations to baseband signal 
-    output_raw = numpy.multiply(rotations, DEVIATION_X_SIGNAL)
-    output_raw = numpy.clip(output_raw, -0.999, +0.999)
+    output_raw = demod.work(iqdata)
 
     """
     Various methods of processing the audio signal. Note that all of these suffer
