@@ -7,7 +7,9 @@ from threading import Thread
 from scipy.fft import fft, fftfreq, fftshift
 import numpy as np
 import math
-
+from scipy.signal import resample_poly, firwin, bilinear, lfilter, decimate
+import sounddevice as sd
+import scipy as sp
 
 sdr = RtlSdr()
 
@@ -16,21 +18,91 @@ sdr.sample_rate = 3.2e6
 sdr.center_freq = 104.7e6
 sdr.gain = 'auto'
 
-A = np.zeros((100, 8192))
+A = np.zeros((100, 8191))
 
 fullscale = math.sqrt(2**8 + 2**8)
 
 colorbar = None
 
+###################
+#    FILTERING    #
+###################
+
+
+# Taken from https://stackoverflow.com/questions/25191620/creating-lowpass-filter-in-scipy-understanding-methods-and-units
+import numpy as np
+from scipy.signal import butter, lfilter, freqz
+import matplotlib.pyplot as plt
+
+def build_butter_filter(cutoff, fs, order=5):
+    nyq = 0.5 * fs
+    normal_cutoff = cutoff / nyq
+    b, a = butter(order, normal_cutoff, btype='low', analog=False)
+    return b, a
+
+def apply_filter(b,a,x):
+    y = lfilter(b, a, x)
+    return y
+
+b,a = build_butter_filter(250e3, sdr.sample_rate)
+
+# def demodulate(x, sample_rate):
+#     # Demodulation
+#     x = np.diff(np.unwrap(np.angle(x)))
+
+#     # De-emphasis filter, H(s) = 1/(RC*s + 1), implemented as IIR via bilinear transform
+#     bz, az = bilinear(1, [75e-6, 1], fs=sample_rate)
+#     x = lfilter(bz, az, x)
+
+#     # decimate filter to get mono audio
+#     x = x[::6]
+#     sample_rate = sample_rate/6
+
+#     # normalizes volume
+#     x /= x.std()
+
+#     return x
+
+def fm_demod(x, df=1.0, fc=0.0):
+    ''' Perform FM demodulation of complex carrier.
+
+    Args:
+        x (array):  FM modulated complex carrier.
+        df (float): Normalized frequency deviation [Hz/V].
+        fc (float): Normalized carrier frequency.
+
+    Returns:
+        Array of real modulating signal.
+    '''
+
+    # Remove carrier.
+    n = sp.arange(len(x))
+    rx = x*sp.exp(-1j*2*sp.pi*fc*n)
+
+    # Extract phase of carrier.
+    phi = sp.arctan2(sp.imag(rx), sp.real(rx))
+
+    # Calculate frequency from phase.
+    y = sp.diff(sp.unwrap(phi)/(2*sp.pi*df))
+
+    return y
+
 def get_samples_and_plot(_):
     global A
     global colorbar
 
-    psd_ax.cla()
-    spectrogram_ax.cla()
+    # psd_ax.cla()
+    # spectrogram_ax.cla()
 
     n_samples = 8192
     samples = sdr.read_samples(n_samples)
+    # samples = apply_filter(b,a,samples)
+    # samples = demodulate(samples, sdr.sample_rate)
+    samples = fm_demod(samples)
+    samples = decimate(samples, int(sdr.sample_rate/44100))
+    sd.play(samples, 44100, blocking=False)
+
+    return
 
     N = len(samples)
     T = 1/sdr.sample_rate
@@ -87,11 +159,15 @@ def get_center_freq():
 cli = Thread(target=get_center_freq)
 cli.start()
 
-fig = plt.figure(figsize=(12,6), facecolor='#DEDEDE')
-psd_ax = plt.subplot(211)
-spectrogram_ax = plt.subplot(212)
 
-ani = FuncAnimation(fig, get_samples_and_plot, interval=1)
-plt.show()
+while True:
+    get_samples_and_plot(None)
 
-sdr.close()
+# fig = plt.figure(figsize=(12,6), facecolor='#DEDEDE')
+# psd_ax = plt.subplot(211)
+# spectrogram_ax = plt.subplot(212)
+
+# ani = FuncAnimation(fig, get_samples_and_plot, interval=1)
+# plt.show()
+
+# sdr.close()
