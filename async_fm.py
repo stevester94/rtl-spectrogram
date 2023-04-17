@@ -7,6 +7,8 @@ from scipy.signal import resample, decimate
 import sounddevice as sd
 from scipy.signal import butter, lfilter, freqz
 from rtlsdr import *
+import asyncio
+
 
 # My Method
 def build_butter_filter(cutoff, fs, order=24):
@@ -19,13 +21,10 @@ def apply_filter(b,a,x):
     y = lfilter(b, a, x)
     return y
 
-INPUT_RATE = 256000
-
-
 class FM_Tuner:
     def __init__(self) -> None:
         self.MAX_DEVIATION = 200000 # Hz
-        self.INPUT_RATE = INPUT_RATE
+        self.INPUT_RATE = 256000
         self.DEVIATION_X_SIGNAL = 0.99 / (math.pi * self.MAX_DEVIATION / (self.INPUT_RATE / 2))
         self.remaining_data = b''
 
@@ -41,8 +40,7 @@ class FM_Tuner:
         self.sdr.center_freq = 104.7e6
         self.sdr.gain = 'auto'
 
-    def getAudioSamples( self ):
-            iqdata = self.sdr.read_samples(self.INPUT_RATE)
+    def _demodulateSamples( self, iqdata ):
             # iqdata = iqdata - 127.5
             # iqdata = iqdata / 128.0
             angles = numpy.angle(iqdata)
@@ -60,39 +58,31 @@ class FM_Tuner:
             output_raw = numpy.clip(output_raw, -0.999, +0.999)
 
             """
-            Various methods of processing the audio signal. Note that all of these suffer
-            decent amounts of studdering that do not appear to be a consequence of CPU.
+            Attempt to downsample to 44100Hz.
 
-            I think it's something to do with number of samples read in at a time
-            """
-
-
-            """
-            No filtering, just slam the audio signal to the sound card at rate
-            """
-            # sd.play(output_raw, INPUT_RATE, blocking=False)
-
-            """
-            Filter the signal, based on the butter filter taps generated above
-            But still send to sound card at rate.
+            Still studders but its actually not horrible
             """
             output_raw = apply_filter(self.b, self.a, output_raw)
+            output_raw = resample(output_raw, int(len(output_raw) * 44100/self.INPUT_RATE))
 
-            return output_raw
+            return output_raw    
+
+
+
+    def getAudioSamples( self ):
+        iqdata = self.sdr.read_samples(self.INPUT_RATE)
+        return self._demodulateSamples( iqdata )
+    
+    async def asyncAudioGenerator( self ):
+        async for samps in self.sdr.stream( self.INPUT_RATE ):
+            yield self._demodulateSamples( samps )
+
+    async def run( self ):
+        async for audio in self.asyncAudioGenerator():
+            sd.play(audio, 44100, blocking=False)
 
 
 
 fm = FM_Tuner()
 
-while True:
-    output_raw = fm.getAudioSamples()
-    sd.play(output_raw, INPUT_RATE, blocking=False)
-
-    """
-    Attempt to downsample to 44100Hz.
-
-    Significant gaps on studder
-    """
-    # output_raw = apply_filter(b, a, output_raw)
-    # output_raw = resample(output_raw, int(len(output_raw) * 44100/INPUT_RATE))
-    # sd.play(output_raw, 44100, blocking=False)
+asyncio.run( fm.run() )
