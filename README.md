@@ -9,6 +9,7 @@ sudo apt install librtlsdr-dev python3-venv
 pip install --upgrade pip
 sudo dnf install portaudio python3-tkinter
 ```
+ahh
 
 ## Initialize python virtual environment
 ```bash
