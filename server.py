@@ -10,11 +10,11 @@ import struct
 import logging
 import numpy as np
 
-import async_fm
+from fmTuner import FmTuner
 
 HTML_DIR = os.path.join( os.getcwd(), "html" )
 
-fmSource = async_fm.FM_Tuner()
+fmSource = FmTuner()
 
 async def handle(request):
     path = request.path
@@ -52,8 +52,8 @@ async def audio_generator():
 async def wshandle(request):
     ws = web.WebSocketResponse()
     await ws.prepare(request)
-    # async for audio_data in fmSource.asyncAudioGenerator():
-    async for audio_data in audio_generator():
+    async for audio_data in fmSource.asyncAudioGenerator():
+    # async for audio_data in audio_generator():
         data = struct.pack('<' + 'f' * len(audio_data), *audio_data)
         await ws.send_bytes(data)
     
