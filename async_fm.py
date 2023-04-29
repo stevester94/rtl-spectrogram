@@ -65,6 +65,8 @@ class FM_Tuner:
             output_raw = apply_filter(self.b, self.a, output_raw)
             output_raw = resample(output_raw, int(len(output_raw) * 44100/self.INPUT_RATE))
 
+            print( output_raw.dtype )
+
             return output_raw    
 
 
@@ -82,7 +84,7 @@ class FM_Tuner:
             sd.play(audio, 44100, blocking=False)
 
 
-
-fm = FM_Tuner()
-
-asyncio.run( fm.run() )
+if __name__ == "__main__":
+    fm = FM_Tuner()
+    loop = asyncio.get_event_loop()
+    result = loop.run_until_complete(fm.run())

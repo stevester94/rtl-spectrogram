@@ -73,7 +73,7 @@ while True:
     Filter the signal, based on the butter filter taps generated above
     But still send to sound card at rate.
     """
-    output_raw = apply_filter(b, a, output_raw)
+    #output_raw = apply_filter(b, a, output_raw)
     sd.play(output_raw, INPUT_RATE, blocking=False)
 
     """
