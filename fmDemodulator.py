@@ -51,6 +51,4 @@ class FmDemodulator:
         output_raw = apply_filter(self.b, self.a, output_raw)
         output_raw = resample(output_raw, int(len(output_raw) * 44100/self.sampleRate))
 
-        print( output_raw.dtype )
-
         return output_raw    
