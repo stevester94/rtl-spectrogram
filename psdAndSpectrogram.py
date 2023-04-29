@@ -2,15 +2,18 @@ import matplotlib.pyplot as plt
 from scipy.fft import fft, fftfreq, fftshift
 import numpy as np
 
+from scipy.signal import resample
+
 class PsdAndSpectrogram:
-    def __init__(self, psdAx, spectrogramAx, sampleRate, centerFreq, fullscale ) -> None:
+    def __init__(self, psdAx, spectrogramAx, sampleRate, centerFreq, fullscale, nBins ) -> None:
         self.psdAx = psdAx
         self.spectrogramAx = spectrogramAx
-        self.A = np.zeros((100, 8192))
+        self.A = np.zeros((100, nBins))
         self.colorbar = None
         self.sampleRate = sampleRate
         self.centerFreq = centerFreq
         self.fullscale = fullscale
+        self.nBins = nBins
 
     def process( self, samples ):
         self.psdAx.cla()
@@ -20,7 +23,11 @@ class PsdAndSpectrogram:
         T = 1/self.sampleRate
 
         yf = fft(samples)
-        xf = fftfreq(N, T) # Convenience function, Returns the frequency bin center freqs
+
+        yf = resample( yf, self.nBins )
+
+        xf = fftfreq(self.nBins, T) # Convenience function, Returns the frequency bin center freqs
+
         xf = fftshift(xf) # Convenience function, swaps the bins so that they can be directly plotted (Recall FFT output is kinda wonky pre-shift)
         yplot = fftshift(yf) # Have to shift the actual fft values too
         yplot = 1.0/N * np.abs(yplot) # Normalize the magnitude of FFT
