@@ -22,21 +22,20 @@ def apply_filter(b,a,x):
     return y
 
 class FM_Tuner:
-    def __init__(self) -> None:
-        self.MAX_DEVIATION = 200000 # Hz
-        self.INPUT_RATE = 256000
-        self.DEVIATION_X_SIGNAL = 0.99 / (math.pi * self.MAX_DEVIATION / (self.INPUT_RATE / 2))
+    def __init__(self, maxDeviation=200000, sampleRate=256000) -> None:
+        self.sampleRate = sampleRate
+        self.deviationXSignal = 0.99 / (math.pi * maxDeviation / (self.sampleRate / 2))
         self.remaining_data = b''
 
         # His Method
         # lo_pass = filters.low_pass(INPUT_RATE, INPUT_RATE, 48)
 
-        self.b,self.a = build_butter_filter(44100, self.INPUT_RATE)
+        self.b,self.a = build_butter_filter(44100, self.sampleRate)
 
 
         # configure device
         self.sdr = RtlSdr()
-        self.sdr.sample_rate = self.INPUT_RATE
+        self.sdr.sample_rate = self.sampleRate
         self.sdr.center_freq = 104.7e6
         self.sdr.gain = 'auto'
 
@@ -54,7 +53,7 @@ class FM_Tuner:
             rotations = (rotations + numpy.pi) % (2 * numpy.pi) - numpy.pi
 
             # Convert rotations to baseband signal 
-            output_raw = numpy.multiply(rotations, self.DEVIATION_X_SIGNAL)
+            output_raw = numpy.multiply(rotations, self.deviationXSignal)
             output_raw = numpy.clip(output_raw, -0.999, +0.999)
 
             """
@@ -63,7 +62,7 @@ class FM_Tuner:
             Still studders but its actually not horrible
             """
             output_raw = apply_filter(self.b, self.a, output_raw)
-            output_raw = resample(output_raw, int(len(output_raw) * 44100/self.INPUT_RATE))
+            output_raw = resample(output_raw, int(len(output_raw) * 44100/self.sampleRate))
 
             print( output_raw.dtype )
 
@@ -72,16 +71,17 @@ class FM_Tuner:
 
 
     def getAudioSamples( self ):
-        iqdata = self.sdr.read_samples(self.INPUT_RATE)
+        iqdata = self.sdr.read_samples(self.sampleRate)
         return self._demodulateSamples( iqdata )
     
     async def asyncAudioGenerator( self ):
-        async for samps in self.sdr.stream( self.INPUT_RATE ):
+        async for samps in self.sdr.stream( self.sampleRate ):
             yield self._demodulateSamples( samps )
 
     async def run( self ):
         async for audio in self.asyncAudioGenerator():
             sd.play(audio, 44100, blocking=False)
+
 
 
 if __name__ == "__main__":
