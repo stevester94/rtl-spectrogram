@@ -1,16 +1,37 @@
 #! /usr/bin/env python3
 
-import ossaudiodev
+import time
 import numpy as np
 
 import sounddevice as sd
 
+from utils import signalGenerator
 
-duration_secs = 10
 fs = 44100
-f_Hz = 6e3
-amplitude = 0.25
-t = np.arange(fs*duration_secs)
-x = amplitude*np.sin(t*f_Hz)
+sg = signalGenerator()
 
-sd.play(x, fs, blocking=True)
+
+
+# bufferLen = 44100
+# start = time.time()
+# while time.time() - start < 10.0:
+#     # print( "Gen" )
+#     x = [next(sg) for _ in range(bufferLen)]
+#     # print( "Play" )
+#     sd.play(x, fs, blocking=True)
+
+
+def callback(outdata, frames, time, status):
+    if status:
+        print(status)
+    ar = np.array( [next(sg) for _ in range(len(outdata))] )
+    ar = ar.reshape( [len(ar), 1] )
+    outdata[:] = ar
+
+
+os = sd.OutputStream(channels=1, samplerate=fs, callback=callback)
+os.start()
+
+
+while True:
+    time.sleep(10)
