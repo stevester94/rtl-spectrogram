@@ -39,7 +39,7 @@ class FmTuner:
         return self.fmDemod.demodulateSamples( iqdata )
     
     async def asyncAudioGenerator( self ):
-        async for samps in self.sdr.stream( self.sampleRate ):
+        async for samps in self.sdr.stream( 2000 ):
             yield self.fmDemod.demodulateSamples( samps )
 
     async def run( self ):

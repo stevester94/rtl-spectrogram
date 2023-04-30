@@ -17,7 +17,7 @@ def apply_filter(b,a,x):
 
 
 class FmDemodulator:
-    def __init__(self, maxDeviation=200000, sampleRate=256000, doFilter=True, doResample=True ) -> None:
+    def __init__(self, maxDeviation=200000, sampleRate=256000, doFilter=True, doResample=True, filterCutoff=44100 ) -> None:
         self.sampleRate = sampleRate
         self.deviationXSignal = 0.99 / (math.pi * maxDeviation / (self.sampleRate / 2))
         self.remaining_data = None
@@ -26,7 +26,7 @@ class FmDemodulator:
         # His Method
         # lo_pass = filters.low_pass(INPUT_RATE, INPUT_RATE, 48)
 
-        self.b,self.a = build_butter_filter(44100, self.sampleRate)
+        self.b,self.a = build_butter_filter(filterCutoff, self.sampleRate)
 
         self.sigGen = signalGenerator()
 
@@ -35,9 +35,9 @@ class FmDemodulator:
         # iqdata = iqdata / 128.0
 
         # We are dropping a single sample between buffers
-        # if self.remaining_data is not None:
-        #     iqdata = np.concatenate( [self.remaining_data, iqdata] )
-        # self.remaining_data = iqdata[-10:]
+        if self.remaining_data is not None:
+            iqdata = np.concatenate( [self.remaining_data, iqdata] )
+        self.remaining_data = iqdata[-1:]
 
 
         angles = np.angle(iqdata)

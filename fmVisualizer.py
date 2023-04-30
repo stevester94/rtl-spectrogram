@@ -6,42 +6,41 @@ from matplotlib.animation import FuncAnimation
 from threading import Thread
 import math
 
-from psdAndSpectrogram import PsdAndSpectrogram
+from psdAndSpectrogram import PsdAndSpectrogram, RealPsdAndSpectrogram
 from fmDemodulator import FmDemodulator
-import sounddevice as sd
-
+from utils import AudioBuffer
 sdr = RtlSdr()
 
 # configure device
-sdr.sample_rate = 256000
+# sdr.sample_rate = 256000
+sdr.sample_rate = 256000*1
 sdr.center_freq = 104.7e6
 sdr.gain = 'auto'
 
 fullscale = math.sqrt(2**8 + 2**8)
 
-fmDemod = FmDemodulator( sampleRate=sdr.sample_rate, doResample=False, doFilter=False )
-
+fmDemod = FmDemodulator( sampleRate=sdr.sample_rate, doResample=False, doFilter=True, filterCutoff=60000 )
+audioBuffer = AudioBuffer()
 nBins = 1024
 
 
 # while True:
 #     samples = sdr.read_samples(nBins) # 8192 is necessary
-#     print( len(samples) )
 #     audio = fmDemod.demodulateSamples( samples )
-#     sd.play(audio, 44100, blocking=False) # Too slow?
-#     # print( audio )
-
-
+#     audioBuffer.put( audio )
 
 def get_samples_and_plot(_):
     global rfDisp
     global fmDemod
     global audioDisp
+    global plotDecimator
 
     
-    samples = sdr.read_samples(int(sdr.sample_rate)) # 8192 is necessary
+    samples = sdr.read_samples(nBins) # 8192 is necessary
 
     audio = fmDemod.demodulateSamples( samples )
+    # audioBuffer.put( audio )
+    
     # sd.play(audio, 44100, blocking=False) # Too slow?
 
     rfDisp.centerFreq = sdr.center_freq
@@ -80,7 +79,7 @@ audioPsdAx.set_title( "Audio PSD" )
 audioSpectrogramAx.set_title( "Audio Spectrogram" )
 
 rfDisp = PsdAndSpectrogram( rfPsdAx, rfSpectrogramAx, sdr.sample_rate, sdr.center_freq, fullscale, nBins )
-audioDisp = PsdAndSpectrogram( audioPsdAx, audioSpectrogramAx, sampleRate=sdr.sample_rate, centerFreq=0, fullscale=1, nBins=nBins )
+audioDisp = RealPsdAndSpectrogram( audioPsdAx, audioSpectrogramAx, sampleRate=sdr.sample_rate, centerFreq=0, fullscale=1, nBins=nBins//2 )
 
 
 ani = FuncAnimation(fig, get_samples_and_plot, interval=1)
