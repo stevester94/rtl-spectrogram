@@ -34,11 +34,12 @@ class FmDemodulator:
         # iqdata = iqdata - 127.5
         # iqdata = iqdata / 128.0
 
-        # I think the studdering has to do with clipping off the last sample
-        
+        # We are dropping a single sample between buffers
         # if self.remaining_data is not None:
         #     iqdata = np.concatenate( [self.remaining_data, iqdata] )
         # self.remaining_data = iqdata[-10:]
+
+
         angles = np.angle(iqdata)
 
         # Determine phase rotation between samples
@@ -66,6 +67,6 @@ class FmDemodulator:
 
 
 
-        return [ next(self.sigGen) for _ in range(len(iqdata))]
+        # return [ next(self.sigGen) for _ in range(len(iqdata))]
 
         return output_raw    

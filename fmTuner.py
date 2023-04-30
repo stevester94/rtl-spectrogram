@@ -11,6 +11,10 @@ import asyncio
 
 from fmDemodulator import FmDemodulator
 
+from collections import deque
+
+from utils import AudioBuffer
+
 class FmTuner:
     def __init__(self, maxDeviation=200000, sampleRate=256000) -> None:
         self.sampleRate = sampleRate
@@ -23,6 +27,13 @@ class FmTuner:
         self.sdr.center_freq = 104.7e6
         self.sdr.gain = 'auto'
 
+        self.ab = AudioBuffer()
+        # self.ab.start()
+
+    def __del__(self):
+        self.ab.stop()
+
+
     def getAudioSamples( self ):
         iqdata = self.sdr.read_samples(self.sampleRate)
         return self.fmDemod.demodulateSamples( iqdata )
@@ -33,7 +44,8 @@ class FmTuner:
 
     async def run( self ):
         async for audio in self.asyncAudioGenerator():
-            sd.play(audio, 44100, blocking=False)
+            self.ab.put( audio )
+            # sd.play(audio, 44100, blocking=False)
 
 
 
