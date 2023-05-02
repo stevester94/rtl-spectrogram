@@ -9,6 +9,15 @@ import math
 from psdAndSpectrogram import PsdAndSpectrogram, RealPsdAndSpectrogram
 from fmDemodulator import FmDemodulator
 from utils import AudioBuffer
+
+from scipy import signal
+from scipy.signal import butter, lfilter, freqz
+
+from pll import PLL
+
+def apply_filter(b,a,x):
+    y = lfilter(b, a, x)
+    return y
 sdr = RtlSdr()
 
 # configure device
@@ -21,13 +30,27 @@ fullscale = math.sqrt(2**8 + 2**8)
 
 fmDemod = FmDemodulator( sampleRate=sdr.sample_rate, doResample=False, doFilter=True, filterCutoff=60000 )
 audioBuffer = AudioBuffer()
-nBins = 81920
+nBins = 8192
 
 
 # while True:
 #     samples = sdr.read_samples(nBins) # 8192 is necessary
 #     audio = fmDemod.demodulateSamples( samples )
 #     audioBuffer.put( audio )
+
+
+fs = sdr.sample_rate  # Sample frequency (Hz)
+
+
+# Pilot tone filtering
+f0 = 19e3  # Frequency to be removed from signal (Hz)
+Q = 30.0  # Quality factor
+# Design notch filter
+# b, a = signal.iirnotch(f0, Q, fs) # Notch filter
+b, a = signal.iirpeak(f0, Q, fs) # Notch pass
+
+pll = PLL( sdr.sample_rate )
+
 
 def get_samples_and_plot(_):
     global rfDisp
@@ -39,9 +62,13 @@ def get_samples_and_plot(_):
     samples = sdr.read_samples(nBins) # 8192 is necessary
 
     audio = fmDemod.demodulateSamples( samples )
+    pilot = apply_filter( b, a, audio )
+    stereoPilot = pll.advance( pilot )
+
+    audio = audio + stereoPilot
+
+
     # audioBuffer.put( audio )
-    
-    # sd.play(audio, 44100, blocking=False) # Too slow?
 
     rfDisp.centerFreq = sdr.center_freq
     rfDisp.process( samples )
