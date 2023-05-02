@@ -82,6 +82,103 @@ class PLL:
             
             return np.cos(out)
 
+class PLL_2:
+    def __init__(self, Kp, Ki, Kvco, dt):
+        self.Kp = Kp
+        self.Ki = Ki
+        self.Kvco = Kvco
+        self.dt = dt
+        self.integrator = 0.0
+        self.phi_est = 0.0
+        self.freq_est = 0.0
+
+    def phase_detector(self, ref):
+        return np.sin(self.phi_est - ref)
+
+    def loop_filter(self, error):
+        self.integrator += self.Ki * error
+        return self.Kp * error + self.integrator
+
+    def voltage_controlled_oscillator(self):
+        self.phi_est += self.Kvco * self.dt * self.freq_est
+        return np.sin(self.phi_est)
+    
+    def run(self, input_signal, ref_signal):
+        output_signal = np.zeros(len(input_signal))
+
+        for i in range(len(input_signal)):
+            error = self.phase_detector(ref_signal[i])
+            vco_out = self.loop_filter(error)
+            output_signal[i] = self.voltage_controlled_oscillator()
+            self.freq_est += vco_out
+            self.phi_est += self.Kvco * self.dt * self.freq_est
+
+        return output_signal, self.phi_est, self.freq_est
+
+class SimPLL(object):
+    def __init__(self, lf_bandwidth):
+        self.phase_out = 0.0
+        self.freq_out = 0.0
+        self.vco = np.exp(1j*self.phase_out)
+        self.phase_difference = 0.0
+        self.bw = lf_bandwidth
+        self.beta = np.sqrt(lf_bandwidth)
+
+    def update_phase_estimate(self):
+        self.vco = np.exp(1j*self.phase_out)
+
+    def update_phase_difference(self, in_sig):
+        self.phase_difference = np.angle(in_sig*np.conj(self.vco))
+
+    def step(self, in_sig):
+        # Takes an instantaneous sample of a signal and updates the PLL's inner state
+        self.update_phase_difference(in_sig)
+        self.freq_out += self.bw * self.phase_difference
+        self.phase_out += self.beta * self.phase_difference + self.freq_out
+        self.update_phase_estimate()
+
+from utils import BetterSigGen
+from matplotlib import pyplot as plt
+# if __name__ == "__main__":
+#     pll = PLL( sampleRate=256e3)
+
+#     sg = BetterSigGen( 10, 256e3, phase_rads=np.pi/2)
+
+#     n = int((1/10)*100*256e3)
+
+#     sig = sg.get(n)
+#     p   = pll.advance( sig )
+
+#     plt.plot( sig[-256_000:] )
+#     plt.plot( p[-256_000:] )
+    
+#     plt.show()
+
+if __name__ == "__main__":
+    # Set the loop parameters
+    Kp = 0.5
+    Ki = 0.1
+    Kvco = 1.0
+    dt = 0.01
+
+    # Generate a reference signal
+    t = np.linspace(0, 1, num=1000)
+    ref_signal = np.sin(2 * np.pi * 10 * t)
+
+    # Generate a noisy input signal
+    input_signal = np.sin(2 * np.pi * 10 * t + np.random.normal(0, 0.1, size=len(t)))
+
+    # Create an instance of the PhaseLockedLoop class
+    pll = PLL_2(Kp, Ki, Kvco, dt)
+
+    # Run the PLL
+    output_signal, phi_est, freq_est = pll.run(input_signal, ref_signal)
+
+
+    # plt.plot( input_signal )
+    # plt.plot( ref_signal )
+    plt.plot( output_signal )
+    plt.show()
 
 '''
 optimized = "-o" in sys.argv

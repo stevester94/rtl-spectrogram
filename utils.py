@@ -14,13 +14,14 @@ def signalGenerator( frequency=10000, sample_rate=44100 ):
 
 
 class BetterSigGen:
-    def __init__( self, frequency, sampleRate ) -> None:
-        duration = 1000
+    def __init__( self, frequency, sampleRate, phase_rads=0 ) -> None:
+
+        duration = (1/frequency) * 10
         self.amplitude = 0.999
         self.frequency = frequency
 
         self.t = np.linspace(0,duration, int(duration*sampleRate))
-        self.orig = self.amplitude * np.sin(2*np.pi*self.frequency*self.t)
+        self.orig = self.amplitude * np.sin(2*np.pi*self.frequency*self.t + phase_rads)
         self._gen()
 
     def _gen( self ):
