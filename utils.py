@@ -13,6 +13,41 @@ def signalGenerator( frequency=10000, sample_rate=44100 ):
             yield x
 
 
+class BetterSigGen:
+    def __init__( self, frequency, sampleRate ) -> None:
+        duration = 1000
+        self.amplitude = 0.999
+        self.frequency = frequency
+
+        self.t = np.linspace(0,duration, int(duration*sampleRate))
+        self.orig = self.amplitude * np.sin(2*np.pi*self.frequency*self.t)
+        self._gen()
+
+    def _gen( self ):
+        self.x = self.orig
+    
+    def get( self, n ):
+        out = np.array( [], dtype=np.float32 )
+
+        while len(out) != n:
+            grab = min( len(self.x), n - len(out) )
+            out = np.concatenate( [out, self.x[:grab]])
+            self.x = self.x[:grab]
+
+            if len(self.x) == 0:
+                self._gen()
+        return out
+
+
+if __name__ == "__main__":
+    bsg = BetterSigGen( 38e3, 256e3 )
+
+    i = 0
+    while True:
+        print( i )
+        i += 1
+        print( bsg.get( 8192 ) )
+
 
 
 import queue

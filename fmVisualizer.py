@@ -28,7 +28,7 @@ sdr.gain = 'auto'
 
 fullscale = math.sqrt(2**8 + 2**8)
 
-fmDemod = FmDemodulator( sampleRate=sdr.sample_rate, doResample=False, doFilter=True, filterCutoff=60000 )
+fmDemod = FmDemodulator( sampleRate=sdr.sample_rate, doResample=False, doFilter=True, filterCutoff=15000 )
 audioBuffer = AudioBuffer()
 nBins = 8192
 
@@ -51,6 +51,9 @@ b, a = signal.iirpeak(f0, Q, fs) # Notch pass
 
 pll = PLL( sdr.sample_rate )
 
+from utils import BetterSigGen
+bsg = BetterSigGen( 38e3, sdr.sample_rate )
+
 
 def get_samples_and_plot(_):
     global rfDisp
@@ -63,9 +66,14 @@ def get_samples_and_plot(_):
 
     audio = fmDemod.demodulateSamples( samples )
     pilot = apply_filter( b, a, audio )
-    stereoPilot = pll.advance( pilot )
+    # stereoPilot = pll.advance( pilot )
 
-    audio = audio + stereoPilot
+    stereoPilot = bsg.get( nBins )
+
+    print( stereoPilot )
+
+    if len(audio) == nBins:
+        audio = audio + stereoPilot
 
 
     # audioBuffer.put( audio )
