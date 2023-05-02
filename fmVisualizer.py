@@ -21,7 +21,7 @@ fullscale = math.sqrt(2**8 + 2**8)
 
 fmDemod = FmDemodulator( sampleRate=sdr.sample_rate, doResample=False, doFilter=True, filterCutoff=60000 )
 audioBuffer = AudioBuffer()
-nBins = 1024
+nBins = 81920
 
 
 # while True:

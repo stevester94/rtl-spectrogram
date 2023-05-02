@@ -25,7 +25,7 @@ class PsdAndSpectrogram:
 
         yf = fft(samples)
 
-        yf = resample( yf, self.nBins )
+        # yf = resample( yf, self.nBins )
         xf = fftfreq(self.nBins, T) # Convenience function, Returns the frequency bin center freqs
 
         xf = fftshift(xf) # Convenience function, swaps the bins so that they can be directly plotted (Recall FFT output is kinda wonky pre-shift)
@@ -95,7 +95,7 @@ class RealPsdAndSpectrogram:
         xf = rfftfreq(len(samples), T) # Convenience function, Returns the frequency bin center freqs
 
 
-        print( "nbins", self.nBins, "len(labels)", len(xf), "len(bins)", len(yf), "len(samples)", len(samples) )
+        # print( "nbins", self.nBins, "len(labels)", len(xf), "len(bins)", len(yf), "len(samples)", len(samples) )
         # return
 
         # xf = fftshift(xf) # Convenience function, swaps the bins so that they can be directly plotted (Recall FFT output is kinda wonky pre-shift)
