@@ -5,7 +5,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from pll import PhaseLockedLoop
+from cython_impl.pll import PhaseLockedLoop
 
 if __name__ == "__main__":
     k = 1

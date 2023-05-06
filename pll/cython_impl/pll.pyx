@@ -10,7 +10,7 @@ class PhaseDetector:
     def __init__(self) -> None:
         pass
 
-    def proc( self, sigIn, sigOut ):
+    def proc( self, float sigIn, float sigOut ):
         return sigIn * sigOut
 
 
@@ -20,7 +20,7 @@ class LoopFilter:
         self.K_p = K_p
         self.integrator = 0
     
-    def proc( self, e_D ):
+    def proc( self, float e_D ):
         self.integrator += self.K_i * e_D
 
         return self.K_p * e_D + self.integrator
@@ -30,7 +30,7 @@ class NumericallyControlledOscillator:
         self.prevPhaseEstimate = 0
         self.K_0 = K_0
 
-    def proc( self, e_F ):
+    def proc( self, float e_F ):
         prev = self.prevPhaseEstimate
         new = prev + self.K_0 * e_F
         self.prevPhaseEstimate = new
@@ -55,7 +55,7 @@ class PhaseLockedLoop:
     The original code for this seemed pretty interested in delaying the output by one sample (or something along those lines)
     I took that all out and it appears to still work fine
     """
-    def proc( self, in_, ):
+    def proc( self, float in_, ):
         _e_D = self.pd.proc( in_, self.last_sin_out )
 
         #loop filter
