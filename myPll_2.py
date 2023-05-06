@@ -57,22 +57,25 @@ pd = PhaseDetector()
 lf = LoopFilter( K_i, K_p )
 nco = NumericallyControlledOscillator( K_0 )
 
+last_sin_out = 0
+last_phase_estimate = 0
 for n in range(99):
     # phase detector
-    try:
-        e_D.append( pd.proc( input_signal[n], sin_out[n] ) )
-    except IndexError:
-        e_D.append(0)
+    e_D.append( pd.proc( input_signal[n], last_sin_out ) )
 
 
     #loop filter
     e_F.append( lf.proc( e_D[n] ))
 
+    
+
+    sin_out[n+1] = -np.sin(2*np.pi*(k/N)*(n+1) + last_phase_estimate)
+    cos_out[n+1] = np.cos(2*np.pi*(k/N)*(n+1) + last_phase_estimate)
+
     phase_estimate[n+1] = nco.proc( e_F[n] )
 
-    sin_out[n+1] = -np.sin(2*np.pi*(k/N)*(n+1) + phase_estimate[n])
-    cos_out[n+1] = np.cos(2*np.pi*(k/N)*(n+1) + phase_estimate[n])
-
+    last_sin_out = sin_out[n+1]
+    last_phase_estimate = phase_estimate[n+1]
 
 
 # Create a Figure
