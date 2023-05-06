@@ -46,40 +46,46 @@ K_0 = 1
 t = np.arange( 99, dtype=int )
 input_signal = np.cos(2*np.pi*(k/N)*t + np.pi)
 
-integrator_out = 0
-phase_estimate = np.zeros(100)
 e_D = [] #phase-error output
-e_F = [] #loop filter output
-sin_out = [0]
 cos_out = [0]
 
-pd = PhaseDetector()
-lf = LoopFilter( K_i, K_p )
-nco = NumericallyControlledOscillator( K_0 )
 
-last_sin_out = 0
-last_phase_estimate = 0
+class PhaseLockedLoop:
+    def __init__( self, K_i, K_p, K_0 ) -> None:
+        self.pd = PhaseDetector()
+        self.lf = LoopFilter( K_i, K_p )
+        self.nco = NumericallyControlledOscillator( K_0 )
 
+        self.last_sin_out = 0
+        self.last_phase_estimate = 0
+        
+    def proc( self, in_, n ):
+        _e_D = self.pd.proc( in_, self.last_sin_out )
+
+
+        #loop filter
+        _e_F = self.lf.proc( _e_D )
+
+        
+
+        _sin_out = -np.sin(2*np.pi*(k/N)*(n+1) + self.last_phase_estimate)
+        _cos_out = np.cos(2*np.pi*(k/N)*(n+1) + self.last_phase_estimate)
+
+        _phase_estimate = self.nco.proc( _e_F )
+
+        self.last_sin_out = _sin_out
+        self.last_phase_estimate = _phase_estimate
+
+        return _cos_out, _sin_out, _e_D
+
+
+pll = PhaseLockedLoop( K_i, K_p, K_0 )
 for n in range(99):
-    # phase detector
-    _e_D = pd.proc( input_signal[n], last_sin_out )
-
-
-    #loop filter
-    _e_F = lf.proc( _e_D )
-
-    
-
-    _sin_out = -np.sin(2*np.pi*(k/N)*(n+1) + last_phase_estimate)
-    _cos_out = np.cos(2*np.pi*(k/N)*(n+1) + last_phase_estimate)
-
-    _phase_estimate = nco.proc( _e_F )
-
-    last_sin_out = _sin_out
-    last_phase_estimate = _phase_estimate
+    _cos_out, _sin_out, _e_D = pll.proc( input_signal[n], n )
 
     cos_out.append( _cos_out )
     e_D.append( _e_D )
+
 
 
 # Create a Figure
