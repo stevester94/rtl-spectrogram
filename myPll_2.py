@@ -48,12 +48,14 @@ class PhaseLockedLoop:
         self.last_phase_estimate = 0
         self.pll_f = pll_f
 
+        self.theta = 0
+
 
     """
     The original code for this seemed pretty interested in delaying the output by one sample (or something along those lines)
     I took that all out and it appears to still work fine
     """
-    def proc( self, in_, n ):
+    def proc( self, in_, ):
         _e_D = self.pd.proc( in_, self.last_sin_out )
 
         #loop filter
@@ -61,9 +63,15 @@ class PhaseLockedLoop:
 
         _phase_estimate = self.nco.proc( _e_F )        
 
+        # The phase of our LO, which is additionally modified by the phase coming from our NCO.
+        # IDK man, the NCO is a bit of a misnomer because its outputting a phase, not a signal
+        self.theta += 2*np.pi*self.pll_f
+        if self.theta > 2*np.pi:
+            self.theta -= 2*np.pi
+
         # These were originally n+1
-        _sin_out = -np.sin(2*np.pi*self.pll_f*(n) + _phase_estimate)
-        _cos_out = np.cos(2*np.pi*self.pll_f*(n) + _phase_estimate)
+        _sin_out = -np.sin( self.theta + _phase_estimate )
+        _cos_out = np.cos( self.theta + _phase_estimate )
 
         self.last_sin_out = _sin_out
 
@@ -77,8 +85,8 @@ K_i = 0.0178
 K_0 = 1
 
 t = np.arange( 199, dtype=int )
-input_signal = np.cos(2*np.pi*(k/N)*t +  np.pi)
-input_signal += np.random.normal(0, 0.1, size=len(t)) # Noise
+input_signal = np.cos(2*np.pi*(k/N)*t + np.random.normal(0, 0.1, size=len(t)) + np.pi) # Sprinkle in phase noise
+input_signal +=  np.random.normal(0, 0.1, size=len(t)) # AWGN
 
 e_D = [] #phase-error output
 cos_out = [0]
@@ -87,7 +95,7 @@ cos_out = [0]
 
 pll = PhaseLockedLoop( K_i, K_p, K_0, k/N )
 for n in range(199):
-    _cos_out, _sin_out, _e_D = pll.proc( input_signal[n], n )
+    _cos_out, _sin_out, _e_D = pll.proc( input_signal[n] )
 
     cos_out.append( _cos_out )
     e_D.append( _e_D )
