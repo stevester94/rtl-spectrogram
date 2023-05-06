@@ -5,21 +5,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-k = 1
-N = 15
-K_p = 0.2667
-K_i = 0.0178
-K_0 = 1
-
-input_signal = np.zeros(100)
-
-integrator_out = 0
-phase_estimate = np.zeros(100)
-e_D = [] #phase-error output
-e_F = [] #loop filter output
-sin_out = np.zeros(100)
-cos_out = np.ones(100)
-
 
 class PhaseDetector:
     def __init__(self) -> None:
@@ -52,15 +37,27 @@ class NumericallyControlledOscillator:
 
         return prev
 
+k = 1
+N = 15
+K_p = 0.2667
+K_i = 0.0178
+K_0 = 1
 
+t = np.arange( 99, dtype=int )
+input_signal = np.cos(2*np.pi*(k/N)*t + np.pi)
+
+integrator_out = 0
+phase_estimate = np.zeros(100)
+e_D = [] #phase-error output
+e_F = [] #loop filter output
+sin_out = np.zeros(100)
+cos_out = np.ones(100)
 
 pd = PhaseDetector()
 lf = LoopFilter( K_i, K_p )
 nco = NumericallyControlledOscillator( K_0 )
 
 for n in range(99):
-    input_signal[n] = np.cos(2*np.pi*(k/N)*n + np.pi)
-
     # phase detector
     try:
         e_D.append( pd.proc( input_signal[n], sin_out[n] ) )
