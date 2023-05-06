@@ -21,7 +21,7 @@ class LoopFilter:
         self.integrator = 0
     
     def proc( self, e_D ):
-        self.integrator += K_i * e_D
+        self.integrator += self.K_i * e_D
 
         return self.K_p * e_D + self.integrator
 
@@ -76,48 +76,3 @@ class PhaseLockedLoop:
         self.last_sin_out = _sin_out
 
         return _cos_out, _sin_out, _e_D
-
-
-k = 1
-N = 15
-K_p = 0.2667
-K_i = 0.0178
-K_0 = 1
-
-t = np.arange( 199, dtype=int )
-input_signal = np.cos(2*np.pi*(k/N)*t + np.random.normal(0, 0.1, size=len(t)) + np.pi) # Sprinkle in phase noise
-input_signal +=  np.random.normal(0, 0.1, size=len(t)) # AWGN
-
-e_D = [] #phase-error output
-cos_out = [0]
-
-
-
-pll = PhaseLockedLoop( K_i, K_p, K_0, k/N )
-for n in range(199):
-    _cos_out, _sin_out, _e_D = pll.proc( input_signal[n] )
-
-    cos_out.append( _cos_out )
-    e_D.append( _e_D )
-
-
-
-# Create a Figure
-fig = plt.figure()
-
-# Set up Axes
-ax1 = fig.add_subplot(211)
-ax1.plot(cos_out, label='PLL Output')
-plt.grid()
-ax1.plot(input_signal, label='Input Signal')
-plt.legend()
-ax1.set_title('Waveforms')
-
-# Show the plot
-#plt.show()
-
-ax2 = fig.add_subplot(212)
-ax2.plot( e_D )
-plt.grid()
-ax2.set_title('Filtered Error')
-plt.show()
