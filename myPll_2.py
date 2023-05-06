@@ -36,19 +36,7 @@ class NumericallyControlledOscillator:
         self.prevPhaseEstimate = new
 
         return prev
-
-k = 1
-N = 15
-K_p = 0.2667
-K_i = 0.0178
-K_0 = 1
-
-t = np.arange( 99, dtype=int )
-input_signal = np.cos(2*np.pi*(k/N)*t + np.pi)
-
-e_D = [] #phase-error output
-cos_out = [0]
-
+    
 
 class PhaseLockedLoop:
     def __init__( self, K_i, K_p, K_0 ) -> None:
@@ -79,8 +67,22 @@ class PhaseLockedLoop:
         return _cos_out, _sin_out, _e_D
 
 
+k = 1
+N = 15
+K_p = 0.2667
+K_i = 0.0178
+K_0 = 1
+
+t = np.arange( 199, dtype=int )
+input_signal = np.cos(2*np.pi*(k/N)*t + np.pi)
+
+e_D = [] #phase-error output
+cos_out = [0]
+
+
+
 pll = PhaseLockedLoop( K_i, K_p, K_0 )
-for n in range(99):
+for n in range(199):
     _cos_out, _sin_out, _e_D = pll.proc( input_signal[n], n )
 
     cos_out.append( _cos_out )
