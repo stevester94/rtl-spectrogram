@@ -55,9 +55,9 @@ class PhaseLockedLoop:
         _e_F = self.lf.proc( _e_D )
 
         
-
-        _sin_out = -np.sin(2*np.pi*(k/N)*(n+1) + self.last_phase_estimate)
-        _cos_out = np.cos(2*np.pi*(k/N)*(n+1) + self.last_phase_estimate)
+        # These were originally n+1
+        _sin_out = -np.sin(2*np.pi*(k/N)*(n) + self.last_phase_estimate)
+        _cos_out = np.cos(2*np.pi*(k/N)*(n) + self.last_phase_estimate)
 
         _phase_estimate = self.nco.proc( _e_F )
 
@@ -74,7 +74,8 @@ K_i = 0.0178
 K_0 = 1
 
 t = np.arange( 199, dtype=int )
-input_signal = np.cos(2*np.pi*(k/N)*t + np.pi)
+input_signal = np.cos(2*np.pi*(k/N)*t +  np.pi)
+# input_signal += np.random.normal(0, 0.1, size=len(t)) # Noise
 
 e_D = [] #phase-error output
 cos_out = [0]
