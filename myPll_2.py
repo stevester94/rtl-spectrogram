@@ -39,30 +39,33 @@ class NumericallyControlledOscillator:
     
 
 class PhaseLockedLoop:
-    def __init__( self, K_i, K_p, K_0 ) -> None:
+    def __init__( self, K_i, K_p, K_0, pll_f ) -> None:
         self.pd = PhaseDetector()
         self.lf = LoopFilter( K_i, K_p )
         self.nco = NumericallyControlledOscillator( K_0 )
 
         self.last_sin_out = 0
         self.last_phase_estimate = 0
-        
+        self.pll_f = pll_f
+
+
+    """
+    The original code for this seemed pretty interested in delaying the output by one sample (or something along those lines)
+    I took that all out and it appears to still work fine
+    """
     def proc( self, in_, n ):
         _e_D = self.pd.proc( in_, self.last_sin_out )
-
 
         #loop filter
         _e_F = self.lf.proc( _e_D )
 
-        
-        # These were originally n+1
-        _sin_out = -np.sin(2*np.pi*(k/N)*(n) + self.last_phase_estimate)
-        _cos_out = np.cos(2*np.pi*(k/N)*(n) + self.last_phase_estimate)
+        _phase_estimate = self.nco.proc( _e_F )        
 
-        _phase_estimate = self.nco.proc( _e_F )
+        # These were originally n+1
+        _sin_out = -np.sin(2*np.pi*self.pll_f*(n) + _phase_estimate)
+        _cos_out = np.cos(2*np.pi*self.pll_f*(n) + _phase_estimate)
 
         self.last_sin_out = _sin_out
-        self.last_phase_estimate = _phase_estimate
 
         return _cos_out, _sin_out, _e_D
 
@@ -75,14 +78,14 @@ K_0 = 1
 
 t = np.arange( 199, dtype=int )
 input_signal = np.cos(2*np.pi*(k/N)*t +  np.pi)
-# input_signal += np.random.normal(0, 0.1, size=len(t)) # Noise
+input_signal += np.random.normal(0, 0.1, size=len(t)) # Noise
 
 e_D = [] #phase-error output
 cos_out = [0]
 
 
 
-pll = PhaseLockedLoop( K_i, K_p, K_0 )
+pll = PhaseLockedLoop( K_i, K_p, K_0, k/N )
 for n in range(199):
     _cos_out, _sin_out, _e_D = pll.proc( input_signal[n], n )
 
