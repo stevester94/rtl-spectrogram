@@ -38,16 +38,48 @@ class BetterSigGen:
             if len(self.x) == 0:
                 self._gen()
         return out
+    
+
+class UltraSigGen:
+    def __init__( self, frequency, sampleRate, phase_rads=0 ) -> None:
+
+        self.theta = phase_rads
+        self.amplitude = 0.999
+        self.frequency = frequency
+        self.sampleRate = sampleRate
+
+        self.last_n = -1
+        self.last_t = None
+    def get( self, n ):
+        # We can cache the t vector and reuse if n stays the same (~50% speed increase!)
+        if n != self.last_n:
+            t = np.linspace( 0, n/self.sampleRate, n )
+            self.last_n = n
+            self.last_t = t
+        else:
+            t = self.last_t
+        out = self.amplitude * np.sin( 2*np.pi*self.frequency*t + self.theta )
+        self.theta += 2*np.pi*self.frequency*n/self.sampleRate
+
+        return out
 
 
 if __name__ == "__main__":
-    bsg = BetterSigGen( 38e3, 256e3 )
+    sg = BetterSigGen( 1, 100, np.pi/4 )
 
-    i = 0
-    while True:
-        print( i )
-        i += 1
-        print( bsg.get( 8192 ) )
+    out = []
+    for _ in range(10):
+        out.extend( sg.get(100) )
+    
+    import  matplotlib.pyplot as plt
+
+    plt.plot( out )
+    plt.show()
+
+    
+
+
+
 
 
 
