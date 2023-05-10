@@ -126,7 +126,7 @@ rfDisp = PsdAndSpectrogram( rfPsdAx, rfSpectrogramAx, sdr.sample_rate, sdr.cente
 audioDisp = RealPsdAndSpectrogram( audioPsdAx, audioSpectrogramAx, sampleRate=sdr.sample_rate, centerFreq=0, fullscale=1, nBins=nBins//2 )
 
 
-# ani = FuncAnimation(fig, get_samples_and_plot, interval=1)
+ani = FuncAnimation(fig, get_samples_and_plot, interval=1000)
 plt.show()
 
 sdr.close()

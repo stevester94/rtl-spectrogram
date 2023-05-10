@@ -3,7 +3,7 @@ import numpy as np
 from scipy.signal import resample, decimate
 from scipy.signal import butter, lfilter, freqz
 
-from utils import signalGenerator, BetterSigGen
+from utils import UltraSigGen
 # My Method
 def build_butter_filter(cutoff, fs, order=24):
     nyq = 0.5 * fs
@@ -36,7 +36,7 @@ class FmDemodulator:
         self.b,self.a = build_butter_filter( filterCutoff, self.sampleRate, order=12 )
         self.b_stereo,self.a_stereo = build_butter_bandpass_filter( 35e3, 45e3, self.sampleRate, order=12 )
 
-        self.sigGen = BetterSigGen( frequency=38e3, sampleRate=self.sampleRate )
+        self.sigGen = UltraSigGen( frequency=38e3, sampleRate=self.sampleRate )
 
     def demodulateSamples( self, iqdata ):
         # iqdata = iqdata - 127.5
