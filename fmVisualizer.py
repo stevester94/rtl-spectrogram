@@ -28,7 +28,7 @@ sdr.gain = 'auto'
 
 fullscale = math.sqrt(2**8 + 2**8)
 
-fmDemod = FmDemodulator( sampleRate=sdr.sample_rate, doResample=False, doFilter=True, filterCutoff=15000 )
+fmDemod = FmDemodulator( sampleRate=sdr.sample_rate, doResample=True, doFilter=False, filterCutoff=15000 )
 audioBuffer = AudioBuffer()
 nBins = 8192
 
@@ -55,6 +55,27 @@ from utils import BetterSigGen
 bsg = BetterSigGen( 38e3, sdr.sample_rate )
 
 
+audio = []
+samples = []
+
+def loop():
+    while True:
+        # print( "LOOP" )
+        global audio
+        global samples
+        samples = sdr.read_samples(nBins) # 8192 is necessary
+
+        audio = fmDemod.demodulateSamples( samples )
+        # pilot = apply_filter( b, a, audio )
+        # stereoPilot = pll.advance( pilot )
+
+        # stereoPilot = bsg.get( nBins )
+
+        # if len(audio) == nBins:
+        #     audio = audio + stereoPilot
+
+        audioBuffer.put( audio )
+
 def get_samples_and_plot(_):
     global rfDisp
     global fmDemod
@@ -62,21 +83,6 @@ def get_samples_and_plot(_):
     global plotDecimator
 
     
-    samples = sdr.read_samples(nBins) # 8192 is necessary
-
-    audio = fmDemod.demodulateSamples( samples )
-    pilot = apply_filter( b, a, audio )
-    # stereoPilot = pll.advance( pilot )
-
-    stereoPilot = bsg.get( nBins )
-
-    print( stereoPilot )
-
-    if len(audio) == nBins:
-        audio = audio + stereoPilot
-
-
-    # audioBuffer.put( audio )
 
     rfDisp.centerFreq = sdr.center_freq
     rfDisp.process( samples )
@@ -99,6 +105,9 @@ cli = Thread(target=get_center_freq)
 cli.start()
 
 
+looper = Thread(target=loop)
+looper.start()
+
 
 fig, axes = plt.subplots( nrows=2, ncols=2, sharex=False, figsize=(20,8), facecolor='#DEDEDE' )
 fig.suptitle( "FM Visualizer" )
@@ -117,7 +126,7 @@ rfDisp = PsdAndSpectrogram( rfPsdAx, rfSpectrogramAx, sdr.sample_rate, sdr.cente
 audioDisp = RealPsdAndSpectrogram( audioPsdAx, audioSpectrogramAx, sampleRate=sdr.sample_rate, centerFreq=0, fullscale=1, nBins=nBins//2 )
 
 
-ani = FuncAnimation(fig, get_samples_and_plot, interval=1)
+# ani = FuncAnimation(fig, get_samples_and_plot, interval=1)
 plt.show()
 
 sdr.close()

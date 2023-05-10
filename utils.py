@@ -53,7 +53,7 @@ class UltraSigGen:
     def get( self, n ):
         # We can cache the t vector and reuse if n stays the same (~50% speed increase!)
         if n != self.last_n:
-            t = np.linspace( 0, n/self.sampleRate, n )
+            t = np.arange( n ) * (1/self.sampleRate)
             self.last_n = n
             self.last_t = t
         else:

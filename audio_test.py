@@ -28,8 +28,10 @@ ab = AudioBuffer()
 # block = [ next(sg) for _ in range(int(1/10000*44100)) ]
 block = []
 
-for _ in range(10):
-    block.extend( sg.get( 44100 ) )
+for _ in range(44100 * 10 ):
+    block.extend( sg.get( 1 ) )
+ab.put( block )
+
 while time.time() - start < 10.0:
     # block = sg.get( 44100 )
-    ab.put( block )
+    time.sleep(1)
