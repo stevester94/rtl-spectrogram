@@ -4,10 +4,18 @@
 sudo apt install librtlsdr-dev python3-venv
 ```
 
+### Alma 8
+```shell
+pip install --upgrade pip
+sudo dnf install portaudio python3-tkinter
+```
+ahh
+
 ## Initialize python virtual environment
 ```bash
 python3 -m venv ./venv
 source ./venv/bin/activate
+pip install --upgrade pip
 pip3 install -r requirements.txt
 ```
 
