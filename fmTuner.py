@@ -13,7 +13,7 @@ from fmDemodulator import FmDemodulator
 
 from collections import deque
 
-from utils import AudioBuffer
+from audioBuffer import AudioBuffer
 
 class FmTuner:
     def __init__(self, maxDeviation=200000, sampleRate=256000) -> None:
