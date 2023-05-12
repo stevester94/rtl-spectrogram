@@ -70,7 +70,7 @@ class RealPsdAndSpectrogram:
     def __init__(self, psdAx, spectrogramAx, sampleRate, centerFreq, fullscale, nBins ) -> None:
         self.psdAx = psdAx
         self.spectrogramAx = spectrogramAx
-        self.A = np.zeros((100, nBins+1))
+        self.A = None
         self.colorbar = None
         self.sampleRate = sampleRate
         self.centerFreq = centerFreq
@@ -79,9 +79,6 @@ class RealPsdAndSpectrogram:
 
     def process( self, samples ):
 
-        if len(samples) != self.nBins*2:
-            print("Fuck got", len(samples), "expected", self.nBins*2)
-            return
 
         self.psdAx.cla()
         self.spectrogramAx.cla()
@@ -94,6 +91,8 @@ class RealPsdAndSpectrogram:
         # yf = resample( yf, self.nBins )
         xf = rfftfreq(len(samples), T) # Convenience function, Returns the frequency bin center freqs
 
+        # print( len(samples), len(xf), len(yf) )
+        # return
 
         # print( "nbins", self.nBins, "len(labels)", len(xf), "len(bins)", len(yf), "len(samples)", len(samples) )
         # return
@@ -104,6 +103,9 @@ class RealPsdAndSpectrogram:
 
         # Put in terms of dBFS
         yplot = 10*np.log10(yplot/self.fullscale)
+
+        if self.A is None or self.A.shape[1] != len(xf):
+            self.A = np.zeros((100, len(xf)))
 
         self.A = np.roll(self.A, 1, axis = 0)
         self.A[0] = yplot
