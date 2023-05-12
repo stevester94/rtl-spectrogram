@@ -21,7 +21,7 @@ bufferLen = 44100
 start = time.time()
 
 
-from utils import AudioBuffer
+from audioBuffer import AudioBuffer
 
 ab = AudioBuffer()
 
