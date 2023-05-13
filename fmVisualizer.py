@@ -1,6 +1,5 @@
 #! /usr/bin/env python3
 
-from rtlsdr import *
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 from threading import Thread
@@ -8,14 +7,17 @@ import math
 
 from psdAndSpectrogram import PsdAndSpectrogram, RealPsdAndSpectrogram
 from fmDemodulator import FmDemodulator
-from utils import AudioBuffer
 
 from scipy import signal
 from scipy.signal import butter, lfilter, freqz
 
 from pll import PLL
+from rtlsdr import RtlSdr
 
 from multiprocessing import Queue, Process
+import asyncio
+
+import json
 
 def apply_filter(b,a,x):
     y = lfilter(b, a, x)
@@ -29,56 +31,72 @@ class FmSource:
         self.rfQ = rfQ
         self.audioQ = audioQ
 
-        self.closeQ = Queue()
+        self.commandQ = Queue()
 
     def run( self ):
         self.p = Process( target=self._run )
         self.p.start()
 
     def stop( self ):
-        self.closeQ.put( "STOP" )
+        print( "FmSource stopping" )
+        self.commandQ.put( {"command": "stop" } )
+        print( "FmSource joining" )
         self.p.join()
 
-    def _run( self ):
-        sdr = RtlSdr()
+    def tune( self, freq_Hz:float ):
+        self.commandQ.put( {"command": "tune", "freq_Hz": freq_Hz} )
+
+    async def _loop( self ):
+        from audioBuffer import AudioBuffer
+        audioBuffer = AudioBuffer()
+
 
         # configure device
-        # sdr.sample_rate = 256000
+        sdr = RtlSdr()
+        sdr.sample_rate = 256000
         sdr.sample_rate = 256000*1
         sdr.center_freq = 104.7e6
         sdr.gain = 'auto'
 
-        fmDemod = FmDemodulator( sampleRate=sdr.sample_rate, doResample=False, doFilter=False, filterCutoff=10000 )
+        # Configure Demod
+        fmDemod = FmDemodulator( sampleRate=sdr.sample_rate, doResample=True, doFilter=False, filterCutoff=10000 )
 
         decimator = 0
-        while True:
-            # print( "LOOP" )
-            samples = sdr.read_samples(nBins) # 8192 is necessary
+        async for samps in sdr.stream( nBins ):
+            audio = fmDemod.demodulateSamples( samps )
+            audioBuffer.put( audio )
 
-            audio = fmDemod.demodulateSamples( samples )
-            # pilot = apply_filter( b, a, audio )
-            # stereoPilot = pll.advance( pilot )
-
-            # stereoPilot = bsg.get( nBins )
-
-            # if len(audio) == nBins:
-            #     audio = audio + stereoPilot
-
-            self.audioQ.put( audio )
-            self.rfQ.put( samples )
-
-
+            decimator += 1
+            if decimator % 10 == 0:
+                self.audioQ.put( audio )
+                self.rfQ.put( samps )
+                decimator = 0
+            
             try:
-                self.closeQ.get_nowait()
-                break
+                v = self.commandQ.get_nowait()
+                if v["command"] == "stop":
+                    print( "Internal close" )
+                    self.rfQ.close()
+                    self.audioQ.close()
+                    return 
+                    sdr.close()
+                    print( "Internal close done" )
+                
+                elif v["command"] == "tune":
+                    sdr.center_freq = v["freq_Hz"]
+
+
             except:
                 pass
-        sdr.close()
+
+
+    def _run( self ):
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete( self._loop() )
 
 
 
-
-nBins = 2**10
+nBins = 2**15
 
 
 # while True:
@@ -103,20 +121,14 @@ center_freq = 104.7e6
 # from utils import BetterSigGen
 # bsg = BetterSigGen( 38e3, sdr.sample_rate )
 
-audio = None
-samples = None
-
 def get_samples_and_plot(_):
-    global rfDisp
-    global fmDemod
-    global audioDisp
-    global plotDecimator
-
     global rfQ
     global audioQ
 
-    global audio
-    global samples
+
+
+    audio = audioQ.get()
+    samples = rfQ.get()
 
     if samples is not None:
         rfDisp.centerFreq = center_freq
@@ -131,35 +143,28 @@ def get_center_freq():
     while True:
         new_freq_MHz = float(input("Enter frequency in MHz: "))
         new_freq_Hz = new_freq_MHz * 1e6
-        sdr.center_freq = new_freq_Hz
+        fms.tune( new_freq_Hz )
 
-# cli = Thread(target=get_center_freq)
-# cli.start()
-
-
+cli = Thread(target=get_center_freq)
+cli.start()
 
 
-rfQ = Queue( maxsize=1000 )
-audioQ = Queue( maxsize=1000 )
+
+
+rfQ = Queue( maxsize=0 )
+audioQ = Queue( maxsize=0 )
 fms = FmSource( audioQ=audioQ, rfQ=rfQ )
 fms.run()
 
-def loop():
-    global audio
-    global samples
-    # audioBuffer = AudioBuffer()
+
+def audioLoop():
+    from audioBuffer import AudioBuffer
+    audioBuffer = AudioBuffer()
 
     while True:
-        audio = audioQ.get()
-        samples = rfQ.get()
+        block = audioQ.get()
 
-        # audioBuffer.put( audio )
-
-        
-
-looper = Thread(target=loop)
-looper.start()
-
+        audioBuffer.put( block )
 
 
 fig, axes = plt.subplots( nrows=2, ncols=2, sharex=False, figsize=(20,8), facecolor='#DEDEDE' )
@@ -179,6 +184,6 @@ rfDisp = PsdAndSpectrogram( rfPsdAx, rfSpectrogramAx, sample_rate, center_freq, 
 audioDisp = RealPsdAndSpectrogram( audioPsdAx, audioSpectrogramAx, sampleRate=sample_rate, centerFreq=0, fullscale=1, nBins=705 )
 
 
-ani = FuncAnimation(fig, get_samples_and_plot, interval=1)
+ani = FuncAnimation(fig, get_samples_and_plot, interval=1 )
 plt.show()
 fms.stop()
