@@ -18,8 +18,8 @@ if __name__ == "__main__":
     input_signal = np.cos(2*np.pi*(k/N)*t + np.random.normal(0, 0.1, size=len(t)) + np.pi) # Sprinkle in phase noise
     input_signal +=  np.random.normal(0, 0.1, size=len(t)) # AWGN
 
-    mode = "time"
-    # mode = "plot"
+    #mode = "time"
+    mode = "plot"
 
 
     if mode == "plot":
