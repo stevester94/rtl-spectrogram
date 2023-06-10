@@ -20,8 +20,9 @@ async function startStreaming() {
 
     signalingSocket.onmessage = async (event) => {
         const message = JSON.parse(event.data);
-
+        console.log( 'Got message' )
         if (message.type === "answer") {
+            console.log( 'Got answer' )
             // Set the remote description
             await pc.setRemoteDescription(new RTCSessionDescription(message));
         }

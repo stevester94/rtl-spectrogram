@@ -1,4 +1,5 @@
 #! /usr/bin/env python3
+# https://github.com/aiortc/aiortc/issues/571
 import os
 import sys
 

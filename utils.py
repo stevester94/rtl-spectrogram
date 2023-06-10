@@ -50,7 +50,7 @@ class UltraSigGen:
 
         self.last_n = -1
         self.last_t = None
-    def get( self, n ):
+    def get( self, n )->np.ndarray:
         # We can cache the t vector and reuse if n stays the same (~50% speed increase!)
         if n != self.last_n:
             t = np.arange( n ) * (1/self.sampleRate)
