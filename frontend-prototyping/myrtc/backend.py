@@ -75,6 +75,7 @@ async def websocket_handler(request):
     # Add the audio track to the peer connection
     pc.addTrack(AudioStreamTrack())
 
+    # This basically contains the entire RTC dance
     async def send_answer():
         # Create the session description
         recv = json.loads( await ws.receive_str() )
@@ -101,6 +102,8 @@ async def websocket_handler(request):
                 await send_answer()
             elif msg.data == "close":
                 await ws.close()
+            else:
+                logging.warning( f"Got an unhandled WS payload: {msg.data}")
         elif msg.type == web.WSMsgType.ERROR:
             logging.error('Websocket connection closed with exception %s' % ws.exception())
 
