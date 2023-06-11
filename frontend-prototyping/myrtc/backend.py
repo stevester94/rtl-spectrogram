@@ -73,7 +73,8 @@ async def websocket_handler(request):
     pc = RTCPeerConnection()
 
     # Add the audio track to the peer connection
-    pc.addTrack(AudioStreamTrack())
+    audioTrack = AudioStreamTrack() 
+    pc.addTrack( audioTrack )
 
     # This basically contains the entire RTC dance
     async def send_answer():
@@ -103,7 +104,27 @@ async def websocket_handler(request):
             elif msg.data == "close":
                 await ws.close()
             else:
-                logging.warning( f"Got an unhandled WS payload: {msg.data}")
+                try:
+                    j = json.loads(msg.data)
+                except Exception as e:
+                    logging.error( f"Got a malformed WS payload: {msg.data}")
+                    continue
+                else:
+                    if "cmd" in j:
+                        logging.info( f"Got command: {j}" )
+                        if j["cmd"] == "increaseFrequency":
+                            curFreq_Hz = audioTrack.audioGen.getFrequency_Hz()
+                            newFreq_Hz = curFreq_Hz + j["amountHz"]
+                                                        
+                            logging.info( f"Increasing frequency from {curFreq_Hz} to {newFreq_Hz}")
+                            audioTrack.audioGen.setFrequency_Hz(newFreq_Hz)
+
+                            
+                    else:
+                        logging.warn( f"Not sure what to do with: {j}" )
+                    
+                
+
         elif msg.type == web.WSMsgType.ERROR:
             logging.error('Websocket connection closed with exception %s' % ws.exception())
 
@@ -143,7 +164,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # Set up logging
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.INFO)
 
     # Create the signaling server
     app = web.Application()

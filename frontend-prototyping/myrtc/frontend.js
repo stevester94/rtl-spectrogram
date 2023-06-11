@@ -1,4 +1,5 @@
 let pc;
+let signalingSocket
 
 async function startStreaming() {
     pc = new RTCPeerConnection();
@@ -10,7 +11,7 @@ async function startStreaming() {
 
     // Connect to the signaling server
     const signalingUrl = "ws://localhost:8080/ws";
-    const signalingSocket = new WebSocket(signalingUrl);
+    signalingSocket = new WebSocket(signalingUrl);
 
     signalingSocket.onopen = async () => {
         // Send an offer to the server
@@ -54,6 +55,24 @@ async function startStreaming() {
 
 function stopStreaming() {
     pc.close();
+}
+
+function increaseFrequency() {
+    signalingSocket.send(
+        JSON.stringify({
+            "cmd": "increaseFrequency",
+            "amountHz": 100
+        })
+    );
+}
+
+function decreaseFrequency() {
+    signalingSocket.send(
+        JSON.stringify({
+            "cmd": "increaseFrequency",
+            "amountHz": -100
+        })
+    );
 }
 
 window.addEventListener("unload", () => {

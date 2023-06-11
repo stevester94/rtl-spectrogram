@@ -62,6 +62,13 @@ class UltraSigGen:
         self.theta += 2*np.pi*self.frequency*n/self.sampleRate
 
         return out
+    
+    def setFrequency_Hz( self, frequency_Hz:float ) -> None:
+        self.frequency = frequency_Hz
+
+    def getFrequency_Hz( self ) -> float:
+        return self.frequency 
+
 
 
 if __name__ == "__main__":
