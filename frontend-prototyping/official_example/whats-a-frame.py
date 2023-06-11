@@ -71,10 +71,18 @@ class AudioStreamTrack(MediaStreamTrack):
         return frame
     
 
-ROOT = os.path.dirname(__file__)
-player = MediaPlayer(os.path.join(ROOT, "demo-instruct.wav"))
 
-track = player.audio
-f = track.recv()
-print( f )
-await f
+
+async def debug():
+    ROOT = os.path.dirname(__file__)
+    player = MediaPlayer(os.path.join(ROOT, "demo-instruct.wav"))
+
+    track = player.audio
+
+    f = track.recv()
+    print( await f )
+
+    f = track.recv()
+    print( await f )
+
+asyncio.run( debug() )

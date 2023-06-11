@@ -30,9 +30,9 @@ class AudioStreamTrack(MediaStreamTrack):
     def __init__(self):
         super().__init__()
         self.time = 0
-        self.audioGen = UltraSigGen( 10e3, 44.1e3 )
-        self.samplerate = 44100
-        self.samples = 1000 # Num to get each buffer
+        self.audioGen = UltraSigGen( 10e3, 48000 )
+        self.samplerate = 48000
+        self.samples = 960 # Num to get each buffer
 
 
     async def recv(self):
@@ -49,7 +49,7 @@ class AudioStreamTrack(MediaStreamTrack):
         # create empty data by default
         # data = np.zeros(self.samples).astype(np.int16)
         data = self.audioGen.get( self.samples )
-        data *= 1000
+        data *= 32000
         data = data.astype( np.int16 )
 
         # Only get speaker data if we have some in the buffer
