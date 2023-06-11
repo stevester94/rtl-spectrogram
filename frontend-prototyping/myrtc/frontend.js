@@ -28,13 +28,20 @@ async function startStreaming() {
         }
     };
 
+    pc.addEventListener('track', function(evt) {
+        if (evt.track.kind == 'video')
+            document.getElementById('video').srcObject = evt.streams[0];
+        else
+            document.getElementById('audioPlayer').srcObject = evt.streams[0];
+    });
+
     // Start consuming audio frames
-    const audioReader = new MediaStreamTrackProcessor(audioTrack);
-    audioReader.ondata = (event) => {
-        // Process the received audio frame here
-        const audioFrame = event.data;
-        console.log("Received audio frame:", audioFrame);
-    };
+    // const audioReader = new MediaStreamTrackProcessor(audioTrack);
+    // audioReader.ondata = (event) => {
+    //     // Process the received audio frame here
+    //     const audioFrame = event.data;
+    //     console.log("Received audio frame:", audioFrame);
+    // };
 
     // Listen for ICE candidates and send them to the server
     pc.onicecandidate = (event) => {
