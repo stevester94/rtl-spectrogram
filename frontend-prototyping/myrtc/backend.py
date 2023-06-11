@@ -8,6 +8,7 @@ import struct
 import json
 import fractions
 import time
+import os
 
 from aiohttp import web
 from aiortc import RTCPeerConnection, RTCSessionDescription
@@ -23,9 +24,9 @@ class AudioStreamTrack(MediaStreamTrack):
     def __init__(self):
         super().__init__()
         self.time = 0
-        self.audioGen = UltraSigGen( 10e3, 44.1e3 )
-        self.samplerate = 44100
-        self.samples = 10000 # Num to get each buffer
+        self.audioGen = UltraSigGen( 10e3, 48000 )
+        self.samplerate = 48000
+        self.samples = 960 # Num to get each buffer
 
 
     async def recv(self):
@@ -60,30 +61,6 @@ class AudioStreamTrack(MediaStreamTrack):
 
         # Return
         return frame
-
-    # async def recv(self):
-    #     frameLen = 44.1e3*0.01 # 10ms frames
-
-    #     samps = self.audioGen.get( frameLen )
-    #     samps *= 5000
-    #     samps = samps.astype(np.int16)
-    #     # samps = samps.reshape([1,-1])
-
-    #     await asyncio.sleep(0.01)
-    #     frame = AudioFrame(format='s16', layout='mono')
-    #     frame.samples = len(samps)
-    #     frame.layout = 1
-
-    #     # frame = AudioFrame.from_ndarray( samps, layout="mono", format="s16" )
-    #     frame.sample_rate = 44.1e3
-
-    #     np.copyto(frame.planes[0].to_ndarray(), samps)
-
-
-
-    #     # frame.time_base = fractions.Fraction(1, 44.1e3)
-
-    #     return frame
 
 
 # Create a signaling server using aiohttp
@@ -137,21 +114,16 @@ async def websocket_handler(request):
 
     return ws
 
+ROOT = os.path.dirname(__file__)
 
-# class fugck():
-#     def __init__(self):
-#         self.audioGen = UltraSigGen( 10e3, 44.1e3 )
+async def index(request):
+    content = open(os.path.join(ROOT, "index.html"), "r").read()
+    return web.Response(content_type="text/html", text=content)
 
-#     def recv(self):
-#         frameLen = 44.1e3*0.01 # 10ms frames
 
-#         samps = self.audioGen.get( frameLen )
-#         samps *= 5000
-#         samps = samps.astype(np.int16)
-#         samps = samps.reshape([1,-1])
-        
-
-#         return AudioFrame.from_ndarray( samps, layout="mono" )
+async def javascript(request):
+    content = open(os.path.join(ROOT, "frontend.js"), "r").read()
+    return web.Response(content_type="application/javascript", text=content)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="WebRTC audio stream backend")
@@ -164,6 +136,8 @@ if __name__ == "__main__":
     # Create the signaling server
     app = web.Application()
     app.router.add_get("/ws", websocket_handler)
+    app.router.add_get("/", index)
+    app.router.add_get("/frontend.js", javascript)
 
     # Start the signaling server
     web.run_app(app, port=args.port)
