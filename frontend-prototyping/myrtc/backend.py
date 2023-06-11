@@ -9,6 +9,7 @@ import json
 import fractions
 import time
 import os
+import mimetypes
 
 from aiohttp import web
 from aiortc import RTCPeerConnection, RTCSessionDescription
@@ -77,23 +78,15 @@ async def websocket_handler(request):
     async def send_answer():
         # Create the session description
         recv = json.loads( await ws.receive_str() )
-        logging.debug( f"SMACK: Got receive_str={recv} in send_answer")
         description = RTCSessionDescription(sdp=recv["sdp"], type="offer")
 
-        logging.debug( f"SMACK: setRemoteDescription")
         await pc.setRemoteDescription(description)
 
         # Generate the answer
-        logging.debug( f"SMACK: createAnswer")
         ans = await pc.createAnswer()
-
-        logging.debug( f"SMACK: Answer: {ans}")
-
-        logging.debug( f"SMACK: Set local description")
         await pc.setLocalDescription( ans )
 
         # Send the answer
-        logging.debug( f"SMACK: sending answer (or something): {pc.localDescription.sdp}")
         payload = {
             "type": pc.localDescription.type,
             "sdp": pc.localDescription.sdp
@@ -105,7 +98,6 @@ async def websocket_handler(request):
     async for msg in ws:
         if msg.type == web.WSMsgType.TEXT:
             if msg.data == "offer":
-                logging.debug( "Got str 'offer' on websocket. Doing send_answer()")
                 await send_answer()
             elif msg.data == "close":
                 await ws.close()
@@ -116,14 +108,31 @@ async def websocket_handler(request):
 
 ROOT = os.path.dirname(__file__)
 
-async def index(request):
-    content = open(os.path.join(ROOT, "index.html"), "r").read()
-    return web.Response(content_type="text/html", text=content)
+async def handle(request):
+    logging.info( f"handle() called with request: {request}" )
+    path = request.path
+    absPath = os.path.abspath( ROOT + path )
 
+    # If is directory, get index.html in that dir
+    if os.path.isdir(absPath):
+        absPath = os.path.abspath(os.path.join(absPath, "index.html"))
 
-async def javascript(request):
-    content = open(os.path.join(ROOT, "frontend.js"), "r").read()
-    return web.Response(content_type="application/javascript", text=content)
+    try:
+        with open(absPath, 'rb') as f:
+            content = f.read()
+        content_type, _ = mimetypes.guess_type(absPath)
+        if content_type == 'text/html':
+            headers = {'Content-Type': 'text/html'}
+            headers['Content-Type'] += '; charset=utf-8'
+        elif content_type == "text/javascript":
+            headers = {'Content-Type': 'text/javascript'}
+            headers['Content-Type'] += '; charset=utf-8'
+        else:
+            logging.warning( f"Guessed an unknown mimetype: {content_type}, returning status=500")
+            return web.Response( status=500 )
+        return web.Response(body=content, headers=headers)
+    except FileNotFoundError:
+        return web.Response(status=404)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="WebRTC audio stream backend")
@@ -135,9 +144,11 @@ if __name__ == "__main__":
 
     # Create the signaling server
     app = web.Application()
-    app.router.add_get("/ws", websocket_handler)
-    app.router.add_get("/", index)
-    app.router.add_get("/frontend.js", javascript)
+
+    app.add_routes([
+        web.get('/ws', websocket_handler),
+        web.get('/{tail:.*}', handle),
+    ])
 
     # Start the signaling server
     web.run_app(app, port=args.port)
