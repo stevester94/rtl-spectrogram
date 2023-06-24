@@ -103,6 +103,7 @@ function negotiate() {
 }
 
 function start() {
+    console.log( "SMACK STARTING" )
     document.getElementById('start').style.display = 'none';
 
     pc = createPeerConnection();

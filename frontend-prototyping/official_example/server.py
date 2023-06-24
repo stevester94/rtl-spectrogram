@@ -9,7 +9,7 @@ import time
 import numpy as np
 import cv2
 from aiohttp import web
-from aiortc import MediaStreamTrack, RTCPeerConnection, RTCSessionDescription
+from aiortc import MediaStreamTrack, RTCPeerConnection, RTCSessionDescription, RTCIceGatherer, RTCConfiguration, RTCIceServer
 from aiortc.contrib.media import MediaBlackhole, MediaPlayer, MediaRecorder, MediaRelay
 from av import VideoFrame
 from av import AudioFrame
@@ -152,7 +152,13 @@ async def offer(request):
     params = await request.json()
     offer = RTCSessionDescription(sdp=params["sdp"], type=params["type"])
 
-    pc = RTCPeerConnection()
+    # This is apparently not necessary
+    # stun = RTCIceServer(urls="stun:stun.l.google.com:19302")
+    # config = RTCConfiguration(iceServers=[stun])
+    # pc = RTCPeerConnection( configuration=config )
+    pc = RTCPeerConnection( )
+
+
     pc_id = "PeerConnection(%s)" % uuid.uuid4()
     pcs.add(pc)
 
@@ -203,6 +209,10 @@ async def offer(request):
             log_info("Track %s ended", track.kind)
             await recorder.stop()
 
+    @pc.on( "icegatheringstatechange" )
+    def ice_change():
+        logger.info( "ICE gathering state changed to "+str(pc.iceGatheringState) )
+
     # handle offer
     await pc.setRemoteDescription(offer)
     await recorder.start()
@@ -211,6 +221,7 @@ async def offer(request):
     answer = await pc.createAnswer()
     await pc.setLocalDescription(answer)
 
+    logger.info( "Answer sent" )
     return web.Response(
         content_type="application/json",
         text=json.dumps(
