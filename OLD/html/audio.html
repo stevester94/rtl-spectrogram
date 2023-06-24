@@ -30,7 +30,7 @@
         btn.onclick = e => {
             if(!clickedAlready)
             {
-                ws = new WebSocket("wss://" + location.host + "/noise"); // Already has port in the host portion
+                ws = new WebSocket("ws://" + location.host + "/noise"); // Already has port in the host portion
                 ws.binaryType = "arraybuffer";
 
                 clickedAlready = true;

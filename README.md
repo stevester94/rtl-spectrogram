@@ -1,8 +1,10 @@
 # Setup
 ## Install Packages
 ```bash
-sudo apt install librtlsdr-dev python3-venv
+sudo apt install librtlsdr-dev python3-venv portaudio19-dev
 ```
+
+Note if you get device permissions errors then re-plug your RTL
 
 ### Alma 8
 ```shell

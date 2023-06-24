@@ -34,12 +34,14 @@ class FmTuner:
         self.ab.stop()
 
 
-    def getAudioSamples( self ):
-        iqdata = self.sdr.read_samples(self.sampleRate)
+    def getAudioSamples( self, N=None ):
+        if N is None: N = self.sampleRate
+        
+        iqdata = self.sdr.read_samples( N )
         return self.fmDemod.demodulateSamples( iqdata )
     
-    async def asyncAudioGenerator( self ):
-        async for samps in self.sdr.stream( 2000 ):
+    async def asyncAudioGenerator( self, N=2000 ):
+        async for samps in self.sdr.stream( N ):
             yield self.fmDemod.demodulateSamples( samps )
 
     async def run( self ):
