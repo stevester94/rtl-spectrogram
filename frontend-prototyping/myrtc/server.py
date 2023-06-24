@@ -31,7 +31,7 @@ class AudioStreamTrack(MediaStreamTrack):
 
 
     async def recv(self):
-
+        logging.info( "recv" )
         # Handle timestamps properly
         if hasattr(self, "_timestamp"):
             self._timestamp += self.samples
@@ -77,60 +77,58 @@ async def websocket_handler(request):
     pc.addTrack( audioTrack )
 
     # This basically contains the entire RTC dance
-    async def send_answer():
-        # Create the session description
-        recv = json.loads( await ws.receive_str() )
-        description = RTCSessionDescription(sdp=recv["sdp"], type="offer")
+    # async def send_answer():
+    #     # Create the session description
+    #     recv = json.loads( await ws.receive_str() )
+    #     description = RTCSessionDescription(sdp=recv["sdp"], type="offer")
 
-        await pc.setRemoteDescription(description)
+    #     await pc.setRemoteDescription(description)
 
-        # Generate the answer
-        ans = await pc.createAnswer()
-        await pc.setLocalDescription( ans )
+    #     # Generate the answer
+    #     ans = await pc.createAnswer()
+    #     await pc.setLocalDescription( ans )
 
-        # Send the answer
-        payload = {
-            "type": pc.localDescription.type,
-            "sdp": pc.localDescription.sdp
-        }
-        payload = json.dumps( payload )
-        await ws.send_str( payload )
+    #     # Send the answer
+    #     payload = {
+    #         "type": pc.localDescription.type,
+    #         "sdp": pc.localDescription.sdp
+    #     }
+    #     payload = json.dumps( payload )
+    #     await ws.send_str( payload )
 
     # Handle signaling messages
     async for msg in ws:
-        if msg.type == web.WSMsgType.TEXT:
-            if msg.data == "offer":
-                await send_answer()
-            elif msg.data == "close":
-                await ws.close()
+        if not msg.type == web.WSMsgType.TEXT:
+            logging.warn( "Unexpected message type" )
+        else:
+            j = json.loads(msg.data)
+
+            if j["type"] == "offer":
+                description = RTCSessionDescription(sdp=j["sdp"], type="offer")
+                await pc.setRemoteDescription(description)
+                ans = await pc.createAnswer()
+                await pc.setLocalDescription( ans )
+                payload = {
+                    "type": pc.localDescription.type,
+                    "sdp": pc.localDescription.sdp
+                }
+                payload = json.dumps( payload )
+                await ws.send_str( payload )
+
+            if j["type"] == "cmd":
+                logging.info( f"Got command: {j}" )
+                if j["cmd"] == "increaseFrequency":
+                    curFreq_Hz = audioTrack.audioGen.getFrequency_Hz()
+                    newFreq_Hz = curFreq_Hz + j["amountHz"]
+                                                
+                    logging.info( f"Increasing frequency from {curFreq_Hz} to {newFreq_Hz}")
+                    audioTrack.audioGen.setFrequency_Hz(newFreq_Hz)
             else:
-                try:
-                    j = json.loads(msg.data)
-                except Exception as e:
-                    logging.error( f"Got a malformed WS payload: {msg.data}")
-                    continue
-                else:
-                    if "cmd" in j:
-                        logging.info( f"Got command: {j}" )
-                        if j["cmd"] == "increaseFrequency":
-                            curFreq_Hz = audioTrack.audioGen.getFrequency_Hz()
-                            newFreq_Hz = curFreq_Hz + j["amountHz"]
-                                                        
-                            logging.info( f"Increasing frequency from {curFreq_Hz} to {newFreq_Hz}")
-                            audioTrack.audioGen.setFrequency_Hz(newFreq_Hz)
-
-                            
-                    else:
-                        logging.warn( f"Not sure what to do with: {j}" )
-                    
-                
-
-        elif msg.type == web.WSMsgType.ERROR:
-            logging.error('Websocket connection closed with exception %s' % ws.exception())
+                logging.warning( f"Not sure what to do with: {j}" )
 
     return ws
 
-ROOT = os.path.dirname(__file__)
+ROOT = "./html"
 
 async def handle(request):
     logging.info( f"handle() called with request: {request}" )
@@ -142,6 +140,7 @@ async def handle(request):
         absPath = os.path.abspath(os.path.join(absPath, "index.html"))
 
     try:
+        logging.info( f"Opening {absPath}" )
         with open(absPath, 'rb') as f:
             content = f.read()
         content_type, _ = mimetypes.guess_type(absPath)
@@ -150,6 +149,9 @@ async def handle(request):
             headers['Content-Type'] += '; charset=utf-8'
         elif content_type == "text/javascript":
             headers = {'Content-Type': 'text/javascript'}
+            headers['Content-Type'] += '; charset=utf-8'
+        elif content_type == "application/javascript":
+            headers = {'Content-Type': 'application/javascript'}
             headers['Content-Type'] += '; charset=utf-8'
         else:
             logging.warning( f"Guessed an unknown mimetype: {content_type}, returning status=500")
@@ -164,7 +166,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # Set up logging
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.DEBUG)
 
     # Create the signaling server
     app = web.Application()
