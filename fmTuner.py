@@ -2,18 +2,30 @@
 # FM demodulator based on I/Q (quadrature) samples
 # https://epxx.co/artigos/pythonfm_en.html
 
-import struct, numpy, sys, math
-from scipy.signal import resample, decimate
-import sounddevice as sd
-from scipy.signal import butter, lfilter, freqz
 from rtlsdr import *
 import asyncio
-
+import numpy as np
 from fmDemodulator import FmDemodulator
 
 from collections import deque
 
 from audioBuffer import AudioBuffer
+
+
+SAVE_IQ = False
+SAVE_IQ_N_SAMPS = 5 * 256000
+SAVE_IQ_PATH = "saved_iq.complex128" # Numpy adds .npy to the path
+
+LOAD_IQ = False
+LOAD_IQ_PATH = "saved_iq.complex128.npy"
+
+if SAVE_IQ:
+    print( f"Will save {SAVE_IQ_N_SAMPS} samples to {SAVE_IQ_PATH}" )
+    saved_iq = np.array( [], dtype=np.complex128 )
+
+if LOAD_IQ:
+    LOAD_IQ_IDX = 0
+    loaded_iq = np.load( LOAD_IQ_PATH )
 
 class FmTuner:
     def __init__(self, maxDeviation=200000, sampleRate=256000) -> None:
@@ -24,7 +36,7 @@ class FmTuner:
         # configure device
         self.sdr = RtlSdr()
         self.sdr.sample_rate = self.sampleRate
-        self.sdr.center_freq = 104.7e6
+        self.sdr.center_freq = 95.1e6
         self.sdr.gain = 'auto'
 
         self.ab = AudioBuffer()
@@ -41,7 +53,23 @@ class FmTuner:
         return self.fmDemod.demodulateSamples( iqdata )
     
     async def asyncAudioGenerator( self, N=2000 ):
+        global saved_iq
+        global SAVE_IQ
+        global LOAD_IQ_IDX
+
         async for samps in self.sdr.stream( N ):
+            if SAVE_IQ:
+                saved_iq = np.concatenate( [saved_iq, samps] )
+
+                if len(saved_iq) >= SAVE_IQ_N_SAMPS:
+                    print( "Saving IQ to", SAVE_IQ_PATH )
+                    np.save( SAVE_IQ_PATH, saved_iq )
+                    SAVE_IQ = False
+            if LOAD_IQ:
+                old_samps = samps
+                samps = loaded_iq[LOAD_IQ_IDX:LOAD_IQ_IDX+len(old_samps)]
+                LOAD_IQ_IDX += len(old_samps)
+
             yield self.fmDemod.demodulateSamples( samps )
 
     async def run( self ):
