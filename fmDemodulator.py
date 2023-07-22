@@ -85,7 +85,7 @@ class FmDemodulator:
 
 
         if self.doResample:
-            output_raw = resample(output_raw, int(len(output_raw) * 48000/self.sampleRate))
+            output_raw = resample(output_raw, int(len(output_raw) * 44100/self.sampleRate))
 
 
 

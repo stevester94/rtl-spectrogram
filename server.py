@@ -26,14 +26,15 @@ class AudioStreamTrack(MediaStreamTrack):
     def __init__(self):
         super().__init__()
         self.time = 0
-        # self.audioGen = UltraSigGen( 10e3, 48000 )
         self.fmTuner = FmTuner()
-        self.samplerate = 48000
-        self.samples = 960 # Num to get each buffer
+        self.samplerate = 44100
+        self.samples =  960 # Num to get each buffer
 
 
-        self.asyncAudioGenerator = self.fmTuner.asyncAudioGenerator( N=self.samples )
-        self.audioGen = UltraSigGen( 10e3, 48000 )
+        self.asyncAudioGenerator = self.fmTuner.asyncAudioGenerator( )
+        self.audioGen = UltraSigGen( 10e3, self.samplerate )
+
+        self.buffer = np.array( [], dtype=float )
 
     async def recv(self):
         logging.info( "recv" )
@@ -45,10 +46,17 @@ class AudioStreamTrack(MediaStreamTrack):
         else:
             self._start = time.time()
             self._timestamp = 0
+        
+        if len(self.buffer) < self.samples:
+            new = await self.asyncAudioGenerator.__anext__()
+            new = np.array( new, dtype=float)
+            self.buffer = np.concatenate( (self.buffer, new) )
 
-        data = self.audioGen.get( self.samples )
-        # data = await self.asyncAudioGenerator.__anext__()
-
+        # data = self.audioGen.get( self.samples ) # Messy
+        data = self.buffer[:self.samples]
+        self.buffer = self.buffer[self.samples:]
+        logging.warn( f"SMACK Got {len(data)} audio samples" )
+        # data = self.fmTuner.getAudioSamples( N=self.samplerate )
         data *= 32000
         data = data.astype( np.int16 )
 

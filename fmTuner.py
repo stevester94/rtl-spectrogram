@@ -36,7 +36,7 @@ class FmTuner:
 
     def getAudioSamples( self, N=None ):
         if N is None: N = self.sampleRate
-        
+
         iqdata = self.sdr.read_samples( N )
         return self.fmDemod.demodulateSamples( iqdata )
     
