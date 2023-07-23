@@ -33,7 +33,7 @@ class FmDemodulator:
         # His Method
         # lo_pass = filters.low_pass(INPUT_RATE, INPUT_RATE, 48)
 
-        self.b,self.a = build_butter_filter( filterCutoff, self.sampleRate, order=12 )
+        self.b,self.a = build_butter_filter( filterCutoff, self.sampleRate, order=12 ) # The order is very particular here
         self.b_stereo,self.a_stereo = build_butter_bandpass_filter( 35e3, 45e3, self.sampleRate, order=12 )
 
         self.sigGen = UltraSigGen( frequency=38e3, sampleRate=self.sampleRate )
