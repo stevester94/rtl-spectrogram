@@ -32,6 +32,8 @@ class Fast_PhaseLockedLoop:
         self.nco_theta_multi += self.f_multiplier * (2*np.pi*self.nco_f/self.fs + self.K_0 * e_F)
         if self.nco_theta > 2*np.pi:
             self.nco_theta -= 2*np.pi
+        if self.nco_theta_multi > 2*np.pi:
+            self.nco_theta_multi -= 2*np.pi
 
         cosOut = np.cos( self.nco_theta_multi  )
         sinOut = -np.sin( self.nco_theta  )

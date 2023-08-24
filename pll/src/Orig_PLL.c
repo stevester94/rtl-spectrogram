@@ -1955,7 +1955,7 @@ static const char __pyx_k_pi[] = "pi";
 static const char __pyx_k_K_0[] = "K_0";
 static const char __pyx_k_K_i[] = "K_i";
 static const char __pyx_k_K_p[] = "K_p";
-static const char __pyx_k__18[] = "?";
+static const char __pyx_k__20[] = "?";
 static const char __pyx_k_cos[] = "cos";
 static const char __pyx_k_doc[] = "__doc__";
 static const char __pyx_k_e_D[] = "e_D";
@@ -1990,6 +1990,8 @@ static const char __pyx_k_metaclass[] = "__metaclass__";
 static const char __pyx_k_LoopFilter[] = "LoopFilter";
 static const char __pyx_k_integrator[] = "integrator";
 static const char __pyx_k_lastSinOut[] = "lastSinOut";
+static const char __pyx_k_theta_multi[] = "theta_multi";
+static const char __pyx_k_f_multiplier[] = "f_multiplier";
 static const char __pyx_k_initializing[] = "_initializing";
 static const char __pyx_k_is_coroutine[] = "_is_coroutine";
 static const char __pyx_k_PhaseDetector[] = "PhaseDetector";
@@ -2013,9 +2015,9 @@ static PyObject *__pyx_pf_8Orig_PLL_13PhaseDetector___init__(CYTHON_UNUSED PyObj
 static PyObject *__pyx_pf_8Orig_PLL_13PhaseDetector_2proc(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self, PyObject *__pyx_v_sigIn, PyObject *__pyx_v_sigOut); /* proto */
 static PyObject *__pyx_pf_8Orig_PLL_10LoopFilter___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_K_i, PyObject *__pyx_v_K_p, PyObject *__pyx_v_fs); /* proto */
 static PyObject *__pyx_pf_8Orig_PLL_10LoopFilter_2proc(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_e_D); /* proto */
-static PyObject *__pyx_pf_8Orig_PLL_31NumericallyControlledOscillator___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_K_0, PyObject *__pyx_v_f, PyObject *__pyx_v_fs); /* proto */
+static PyObject *__pyx_pf_8Orig_PLL_31NumericallyControlledOscillator___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_K_0, PyObject *__pyx_v_f, PyObject *__pyx_v_fs, PyObject *__pyx_v_f_multiplier); /* proto */
 static PyObject *__pyx_pf_8Orig_PLL_31NumericallyControlledOscillator_2proc(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_e_F); /* proto */
-static PyObject *__pyx_pf_8Orig_PLL_15PhaseLockedLoop___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_K_i, PyObject *__pyx_v_K_p, PyObject *__pyx_v_K_0, PyObject *__pyx_v_pll_f, PyObject *__pyx_v_fs); /* proto */
+static PyObject *__pyx_pf_8Orig_PLL_15PhaseLockedLoop___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_K_i, PyObject *__pyx_v_K_p, PyObject *__pyx_v_K_0, PyObject *__pyx_v_pll_f, PyObject *__pyx_v_fs, PyObject *__pyx_v_f_multiplier); /* proto */
 static PyObject *__pyx_pf_8Orig_PLL_15PhaseLockedLoop_2proc(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_in_); /* proto */
 /* #### Code section: late_includes ### */
 /* #### Code section: module_state ### */
@@ -2064,7 +2066,7 @@ typedef struct {
   PyObject *__pyx_n_s_PhaseLockedLoop;
   PyObject *__pyx_n_s_PhaseLockedLoop___init;
   PyObject *__pyx_n_s_PhaseLockedLoop_proc;
-  PyObject *__pyx_n_s__18;
+  PyObject *__pyx_n_s__20;
   PyObject *__pyx_n_s_asyncio_coroutines;
   PyObject *__pyx_n_s_cline_in_traceback;
   PyObject *__pyx_n_s_cos;
@@ -2074,6 +2076,7 @@ typedef struct {
   PyObject *__pyx_n_s_e_D;
   PyObject *__pyx_n_s_e_F;
   PyObject *__pyx_n_s_f;
+  PyObject *__pyx_n_s_f_multiplier;
   PyObject *__pyx_n_s_fs;
   PyObject *__pyx_n_s_import;
   PyObject *__pyx_n_s_in;
@@ -2110,7 +2113,9 @@ typedef struct {
   PyObject *__pyx_n_s_super;
   PyObject *__pyx_n_s_test;
   PyObject *__pyx_n_s_theta;
+  PyObject *__pyx_n_s_theta_multi;
   PyObject *__pyx_int_0;
+  PyObject *__pyx_int_1;
   PyObject *__pyx_int_2;
   PyObject *__pyx_tuple__2;
   PyObject *__pyx_tuple__4;
@@ -2118,16 +2123,18 @@ typedef struct {
   PyObject *__pyx_tuple__8;
   PyObject *__pyx_tuple__10;
   PyObject *__pyx_tuple__12;
-  PyObject *__pyx_tuple__14;
-  PyObject *__pyx_tuple__16;
+  PyObject *__pyx_tuple__13;
+  PyObject *__pyx_tuple__15;
+  PyObject *__pyx_tuple__17;
+  PyObject *__pyx_tuple__18;
   PyObject *__pyx_codeobj__3;
   PyObject *__pyx_codeobj__5;
   PyObject *__pyx_codeobj__7;
   PyObject *__pyx_codeobj__9;
   PyObject *__pyx_codeobj__11;
-  PyObject *__pyx_codeobj__13;
-  PyObject *__pyx_codeobj__15;
-  PyObject *__pyx_codeobj__17;
+  PyObject *__pyx_codeobj__14;
+  PyObject *__pyx_codeobj__16;
+  PyObject *__pyx_codeobj__19;
 } __pyx_mstate;
 
 #if CYTHON_USE_MODULE_STATE
@@ -2188,7 +2195,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_PhaseLockedLoop);
   Py_CLEAR(clear_module_state->__pyx_n_s_PhaseLockedLoop___init);
   Py_CLEAR(clear_module_state->__pyx_n_s_PhaseLockedLoop_proc);
-  Py_CLEAR(clear_module_state->__pyx_n_s__18);
+  Py_CLEAR(clear_module_state->__pyx_n_s__20);
   Py_CLEAR(clear_module_state->__pyx_n_s_asyncio_coroutines);
   Py_CLEAR(clear_module_state->__pyx_n_s_cline_in_traceback);
   Py_CLEAR(clear_module_state->__pyx_n_s_cos);
@@ -2198,6 +2205,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_e_D);
   Py_CLEAR(clear_module_state->__pyx_n_s_e_F);
   Py_CLEAR(clear_module_state->__pyx_n_s_f);
+  Py_CLEAR(clear_module_state->__pyx_n_s_f_multiplier);
   Py_CLEAR(clear_module_state->__pyx_n_s_fs);
   Py_CLEAR(clear_module_state->__pyx_n_s_import);
   Py_CLEAR(clear_module_state->__pyx_n_s_in);
@@ -2234,7 +2242,9 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_super);
   Py_CLEAR(clear_module_state->__pyx_n_s_test);
   Py_CLEAR(clear_module_state->__pyx_n_s_theta);
+  Py_CLEAR(clear_module_state->__pyx_n_s_theta_multi);
   Py_CLEAR(clear_module_state->__pyx_int_0);
+  Py_CLEAR(clear_module_state->__pyx_int_1);
   Py_CLEAR(clear_module_state->__pyx_int_2);
   Py_CLEAR(clear_module_state->__pyx_tuple__2);
   Py_CLEAR(clear_module_state->__pyx_tuple__4);
@@ -2242,16 +2252,18 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_tuple__8);
   Py_CLEAR(clear_module_state->__pyx_tuple__10);
   Py_CLEAR(clear_module_state->__pyx_tuple__12);
-  Py_CLEAR(clear_module_state->__pyx_tuple__14);
-  Py_CLEAR(clear_module_state->__pyx_tuple__16);
+  Py_CLEAR(clear_module_state->__pyx_tuple__13);
+  Py_CLEAR(clear_module_state->__pyx_tuple__15);
+  Py_CLEAR(clear_module_state->__pyx_tuple__17);
+  Py_CLEAR(clear_module_state->__pyx_tuple__18);
   Py_CLEAR(clear_module_state->__pyx_codeobj__3);
   Py_CLEAR(clear_module_state->__pyx_codeobj__5);
   Py_CLEAR(clear_module_state->__pyx_codeobj__7);
   Py_CLEAR(clear_module_state->__pyx_codeobj__9);
   Py_CLEAR(clear_module_state->__pyx_codeobj__11);
-  Py_CLEAR(clear_module_state->__pyx_codeobj__13);
-  Py_CLEAR(clear_module_state->__pyx_codeobj__15);
-  Py_CLEAR(clear_module_state->__pyx_codeobj__17);
+  Py_CLEAR(clear_module_state->__pyx_codeobj__14);
+  Py_CLEAR(clear_module_state->__pyx_codeobj__16);
+  Py_CLEAR(clear_module_state->__pyx_codeobj__19);
   return 0;
 }
 #endif
@@ -2290,7 +2302,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_PhaseLockedLoop);
   Py_VISIT(traverse_module_state->__pyx_n_s_PhaseLockedLoop___init);
   Py_VISIT(traverse_module_state->__pyx_n_s_PhaseLockedLoop_proc);
-  Py_VISIT(traverse_module_state->__pyx_n_s__18);
+  Py_VISIT(traverse_module_state->__pyx_n_s__20);
   Py_VISIT(traverse_module_state->__pyx_n_s_asyncio_coroutines);
   Py_VISIT(traverse_module_state->__pyx_n_s_cline_in_traceback);
   Py_VISIT(traverse_module_state->__pyx_n_s_cos);
@@ -2300,6 +2312,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_e_D);
   Py_VISIT(traverse_module_state->__pyx_n_s_e_F);
   Py_VISIT(traverse_module_state->__pyx_n_s_f);
+  Py_VISIT(traverse_module_state->__pyx_n_s_f_multiplier);
   Py_VISIT(traverse_module_state->__pyx_n_s_fs);
   Py_VISIT(traverse_module_state->__pyx_n_s_import);
   Py_VISIT(traverse_module_state->__pyx_n_s_in);
@@ -2336,7 +2349,9 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_super);
   Py_VISIT(traverse_module_state->__pyx_n_s_test);
   Py_VISIT(traverse_module_state->__pyx_n_s_theta);
+  Py_VISIT(traverse_module_state->__pyx_n_s_theta_multi);
   Py_VISIT(traverse_module_state->__pyx_int_0);
+  Py_VISIT(traverse_module_state->__pyx_int_1);
   Py_VISIT(traverse_module_state->__pyx_int_2);
   Py_VISIT(traverse_module_state->__pyx_tuple__2);
   Py_VISIT(traverse_module_state->__pyx_tuple__4);
@@ -2344,16 +2359,18 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_tuple__8);
   Py_VISIT(traverse_module_state->__pyx_tuple__10);
   Py_VISIT(traverse_module_state->__pyx_tuple__12);
-  Py_VISIT(traverse_module_state->__pyx_tuple__14);
-  Py_VISIT(traverse_module_state->__pyx_tuple__16);
+  Py_VISIT(traverse_module_state->__pyx_tuple__13);
+  Py_VISIT(traverse_module_state->__pyx_tuple__15);
+  Py_VISIT(traverse_module_state->__pyx_tuple__17);
+  Py_VISIT(traverse_module_state->__pyx_tuple__18);
   Py_VISIT(traverse_module_state->__pyx_codeobj__3);
   Py_VISIT(traverse_module_state->__pyx_codeobj__5);
   Py_VISIT(traverse_module_state->__pyx_codeobj__7);
   Py_VISIT(traverse_module_state->__pyx_codeobj__9);
   Py_VISIT(traverse_module_state->__pyx_codeobj__11);
-  Py_VISIT(traverse_module_state->__pyx_codeobj__13);
-  Py_VISIT(traverse_module_state->__pyx_codeobj__15);
-  Py_VISIT(traverse_module_state->__pyx_codeobj__17);
+  Py_VISIT(traverse_module_state->__pyx_codeobj__14);
+  Py_VISIT(traverse_module_state->__pyx_codeobj__16);
+  Py_VISIT(traverse_module_state->__pyx_codeobj__19);
   return 0;
 }
 #endif
@@ -2402,7 +2419,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_PhaseLockedLoop __pyx_mstate_global->__pyx_n_s_PhaseLockedLoop
 #define __pyx_n_s_PhaseLockedLoop___init __pyx_mstate_global->__pyx_n_s_PhaseLockedLoop___init
 #define __pyx_n_s_PhaseLockedLoop_proc __pyx_mstate_global->__pyx_n_s_PhaseLockedLoop_proc
-#define __pyx_n_s__18 __pyx_mstate_global->__pyx_n_s__18
+#define __pyx_n_s__20 __pyx_mstate_global->__pyx_n_s__20
 #define __pyx_n_s_asyncio_coroutines __pyx_mstate_global->__pyx_n_s_asyncio_coroutines
 #define __pyx_n_s_cline_in_traceback __pyx_mstate_global->__pyx_n_s_cline_in_traceback
 #define __pyx_n_s_cos __pyx_mstate_global->__pyx_n_s_cos
@@ -2412,6 +2429,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_e_D __pyx_mstate_global->__pyx_n_s_e_D
 #define __pyx_n_s_e_F __pyx_mstate_global->__pyx_n_s_e_F
 #define __pyx_n_s_f __pyx_mstate_global->__pyx_n_s_f
+#define __pyx_n_s_f_multiplier __pyx_mstate_global->__pyx_n_s_f_multiplier
 #define __pyx_n_s_fs __pyx_mstate_global->__pyx_n_s_fs
 #define __pyx_n_s_import __pyx_mstate_global->__pyx_n_s_import
 #define __pyx_n_s_in __pyx_mstate_global->__pyx_n_s_in
@@ -2448,7 +2466,9 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_super __pyx_mstate_global->__pyx_n_s_super
 #define __pyx_n_s_test __pyx_mstate_global->__pyx_n_s_test
 #define __pyx_n_s_theta __pyx_mstate_global->__pyx_n_s_theta
+#define __pyx_n_s_theta_multi __pyx_mstate_global->__pyx_n_s_theta_multi
 #define __pyx_int_0 __pyx_mstate_global->__pyx_int_0
+#define __pyx_int_1 __pyx_mstate_global->__pyx_int_1
 #define __pyx_int_2 __pyx_mstate_global->__pyx_int_2
 #define __pyx_tuple__2 __pyx_mstate_global->__pyx_tuple__2
 #define __pyx_tuple__4 __pyx_mstate_global->__pyx_tuple__4
@@ -2456,16 +2476,18 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_tuple__8 __pyx_mstate_global->__pyx_tuple__8
 #define __pyx_tuple__10 __pyx_mstate_global->__pyx_tuple__10
 #define __pyx_tuple__12 __pyx_mstate_global->__pyx_tuple__12
-#define __pyx_tuple__14 __pyx_mstate_global->__pyx_tuple__14
-#define __pyx_tuple__16 __pyx_mstate_global->__pyx_tuple__16
+#define __pyx_tuple__13 __pyx_mstate_global->__pyx_tuple__13
+#define __pyx_tuple__15 __pyx_mstate_global->__pyx_tuple__15
+#define __pyx_tuple__17 __pyx_mstate_global->__pyx_tuple__17
+#define __pyx_tuple__18 __pyx_mstate_global->__pyx_tuple__18
 #define __pyx_codeobj__3 __pyx_mstate_global->__pyx_codeobj__3
 #define __pyx_codeobj__5 __pyx_mstate_global->__pyx_codeobj__5
 #define __pyx_codeobj__7 __pyx_mstate_global->__pyx_codeobj__7
 #define __pyx_codeobj__9 __pyx_mstate_global->__pyx_codeobj__9
 #define __pyx_codeobj__11 __pyx_mstate_global->__pyx_codeobj__11
-#define __pyx_codeobj__13 __pyx_mstate_global->__pyx_codeobj__13
-#define __pyx_codeobj__15 __pyx_mstate_global->__pyx_codeobj__15
-#define __pyx_codeobj__17 __pyx_mstate_global->__pyx_codeobj__17
+#define __pyx_codeobj__14 __pyx_mstate_global->__pyx_codeobj__14
+#define __pyx_codeobj__16 __pyx_mstate_global->__pyx_codeobj__16
+#define __pyx_codeobj__19 __pyx_mstate_global->__pyx_codeobj__19
 /* #### Code section: module_code ### */
 
 /* "Orig_PLL.py":4
@@ -3061,7 +3083,7 @@ static PyObject *__pyx_pf_8Orig_PLL_10LoopFilter_2proc(CYTHON_UNUSED PyObject *_
 /* "Orig_PLL.py":25
  * 
  * class NumericallyControlledOscillator:
- *     def __init__( self, K_0, f, fs ) -> None:             # <<<<<<<<<<<<<<
+ *     def __init__( self, K_0, f, fs, f_multiplier=1 ) -> None:             # <<<<<<<<<<<<<<
  *         self.K_0 = K_0
  *         self.f = f
  */
@@ -3086,6 +3108,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   PyObject *__pyx_v_K_0 = 0;
   PyObject *__pyx_v_f = 0;
   PyObject *__pyx_v_fs = 0;
+  PyObject *__pyx_v_f_multiplier = 0;
   #if !CYTHON_METH_FASTCALL
   CYTHON_UNUSED const Py_ssize_t __pyx_nargs = PyTuple_GET_SIZE(__pyx_args);
   #endif
@@ -3097,11 +3120,14 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
   {
-    PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_K_0,&__pyx_n_s_f,&__pyx_n_s_fs,0};
-    PyObject* values[4] = {0,0,0,0};
+    PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_K_0,&__pyx_n_s_f,&__pyx_n_s_fs,&__pyx_n_s_f_multiplier,0};
+    PyObject* values[5] = {0,0,0,0,0};
+    values[4] = ((PyObject *)((PyObject *)__pyx_int_1));
     if (__pyx_kwds) {
       Py_ssize_t kw_args;
       switch (__pyx_nargs) {
+        case  5: values[4] = __Pyx_Arg_FASTCALL(__pyx_args, 4);
+        CYTHON_FALLTHROUGH;
         case  4: values[3] = __Pyx_Arg_FASTCALL(__pyx_args, 3);
         CYTHON_FALLTHROUGH;
         case  3: values[2] = __Pyx_Arg_FASTCALL(__pyx_args, 2);
@@ -3124,56 +3150,68 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
         if (likely((values[1] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_K_0)) != 0)) kw_args--;
         else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 25, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 4, 4, 1); __PYX_ERR(0, 25, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 4, 5, 1); __PYX_ERR(0, 25, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_f)) != 0)) kw_args--;
         else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 25, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 4, 4, 2); __PYX_ERR(0, 25, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 4, 5, 2); __PYX_ERR(0, 25, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_fs)) != 0)) kw_args--;
         else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 25, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 4, 4, 3); __PYX_ERR(0, 25, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 4, 5, 3); __PYX_ERR(0, 25, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  4:
+        if (kw_args > 0) {
+          PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_f_multiplier);
+          if (value) { values[4] = value; kw_args--; }
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 25, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
         if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "__init__") < 0)) __PYX_ERR(0, 25, __pyx_L3_error)
       }
-    } else if (unlikely(__pyx_nargs != 4)) {
-      goto __pyx_L5_argtuple_error;
     } else {
-      values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
-      values[1] = __Pyx_Arg_FASTCALL(__pyx_args, 1);
-      values[2] = __Pyx_Arg_FASTCALL(__pyx_args, 2);
-      values[3] = __Pyx_Arg_FASTCALL(__pyx_args, 3);
+      switch (__pyx_nargs) {
+        case  5: values[4] = __Pyx_Arg_FASTCALL(__pyx_args, 4);
+        CYTHON_FALLTHROUGH;
+        case  4: values[3] = __Pyx_Arg_FASTCALL(__pyx_args, 3);
+        values[2] = __Pyx_Arg_FASTCALL(__pyx_args, 2);
+        values[1] = __Pyx_Arg_FASTCALL(__pyx_args, 1);
+        values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
+        break;
+        default: goto __pyx_L5_argtuple_error;
+      }
     }
     __pyx_v_self = values[0];
     __pyx_v_K_0 = values[1];
     __pyx_v_f = values[2];
     __pyx_v_fs = values[3];
+    __pyx_v_f_multiplier = values[4];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 4, 4, __pyx_nargs); __PYX_ERR(0, 25, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 4, 5, __pyx_nargs); __PYX_ERR(0, 25, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("Orig_PLL.NumericallyControlledOscillator.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8Orig_PLL_31NumericallyControlledOscillator___init__(__pyx_self, __pyx_v_self, __pyx_v_K_0, __pyx_v_f, __pyx_v_fs);
+  __pyx_r = __pyx_pf_8Orig_PLL_31NumericallyControlledOscillator___init__(__pyx_self, __pyx_v_self, __pyx_v_K_0, __pyx_v_f, __pyx_v_fs, __pyx_v_f_multiplier);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8Orig_PLL_31NumericallyControlledOscillator___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_K_0, PyObject *__pyx_v_f, PyObject *__pyx_v_fs) {
+static PyObject *__pyx_pf_8Orig_PLL_31NumericallyControlledOscillator___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_K_0, PyObject *__pyx_v_f, PyObject *__pyx_v_fs, PyObject *__pyx_v_f_multiplier) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_lineno = 0;
@@ -3183,7 +3221,7 @@ static PyObject *__pyx_pf_8Orig_PLL_31NumericallyControlledOscillator___init__(C
 
   /* "Orig_PLL.py":26
  * class NumericallyControlledOscillator:
- *     def __init__( self, K_0, f, fs ) -> None:
+ *     def __init__( self, K_0, f, fs, f_multiplier=1 ) -> None:
  *         self.K_0 = K_0             # <<<<<<<<<<<<<<
  *         self.f = f
  *         self.fs = fs
@@ -3191,7 +3229,7 @@ static PyObject *__pyx_pf_8Orig_PLL_31NumericallyControlledOscillator___init__(C
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_K_0, __pyx_v_K_0) < 0) __PYX_ERR(0, 26, __pyx_L1_error)
 
   /* "Orig_PLL.py":27
- *     def __init__( self, K_0, f, fs ) -> None:
+ *     def __init__( self, K_0, f, fs, f_multiplier=1 ) -> None:
  *         self.K_0 = K_0
  *         self.f = f             # <<<<<<<<<<<<<<
  *         self.fs = fs
@@ -3204,7 +3242,7 @@ static PyObject *__pyx_pf_8Orig_PLL_31NumericallyControlledOscillator___init__(C
  *         self.f = f
  *         self.fs = fs             # <<<<<<<<<<<<<<
  *         self.theta = 0
- *         self.phaseEstimate = 0
+ *         self.theta_multi = 0
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_fs, __pyx_v_fs) < 0) __PYX_ERR(0, 28, __pyx_L1_error)
 
@@ -3212,24 +3250,42 @@ static PyObject *__pyx_pf_8Orig_PLL_31NumericallyControlledOscillator___init__(C
  *         self.f = f
  *         self.fs = fs
  *         self.theta = 0             # <<<<<<<<<<<<<<
+ *         self.theta_multi = 0
  *         self.phaseEstimate = 0
- * 
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_theta, __pyx_int_0) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
 
   /* "Orig_PLL.py":30
  *         self.fs = fs
  *         self.theta = 0
+ *         self.theta_multi = 0             # <<<<<<<<<<<<<<
+ *         self.phaseEstimate = 0
+ *         self.f_multiplier = f_multiplier
+ */
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_theta_multi, __pyx_int_0) < 0) __PYX_ERR(0, 30, __pyx_L1_error)
+
+  /* "Orig_PLL.py":31
+ *         self.theta = 0
+ *         self.theta_multi = 0
  *         self.phaseEstimate = 0             # <<<<<<<<<<<<<<
+ *         self.f_multiplier = f_multiplier
+ * 
+ */
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_phaseEstimate, __pyx_int_0) < 0) __PYX_ERR(0, 31, __pyx_L1_error)
+
+  /* "Orig_PLL.py":32
+ *         self.theta_multi = 0
+ *         self.phaseEstimate = 0
+ *         self.f_multiplier = f_multiplier             # <<<<<<<<<<<<<<
  * 
  *     def proc( self, e_F ):
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_phaseEstimate, __pyx_int_0) < 0) __PYX_ERR(0, 30, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_f_multiplier, __pyx_v_f_multiplier) < 0) __PYX_ERR(0, 32, __pyx_L1_error)
 
   /* "Orig_PLL.py":25
  * 
  * class NumericallyControlledOscillator:
- *     def __init__( self, K_0, f, fs ) -> None:             # <<<<<<<<<<<<<<
+ *     def __init__( self, K_0, f, fs, f_multiplier=1 ) -> None:             # <<<<<<<<<<<<<<
  *         self.K_0 = K_0
  *         self.f = f
  */
@@ -3246,12 +3302,12 @@ static PyObject *__pyx_pf_8Orig_PLL_31NumericallyControlledOscillator___init__(C
   return __pyx_r;
 }
 
-/* "Orig_PLL.py":32
- *         self.phaseEstimate = 0
+/* "Orig_PLL.py":34
+ *         self.f_multiplier = f_multiplier
  * 
  *     def proc( self, e_F ):             # <<<<<<<<<<<<<<
  *         self.theta += 2*np.pi*self.f/self.fs + self.K_0 * e_F
- *         if self.theta > 2*np.pi:
+ *         self.theta_multi += self.f_multiplier*(2*np.pi*self.f/self.fs + self.K_0 * e_F)
  */
 
 /* Python wrapper */
@@ -3299,19 +3355,19 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
       switch (__pyx_nargs) {
         case  0:
         if (likely((values[0] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_self)) != 0)) kw_args--;
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 32, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 34, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
         CYTHON_FALLTHROUGH;
         case  1:
         if (likely((values[1] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_e_F)) != 0)) kw_args--;
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 32, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 34, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("proc", 1, 2, 2, 1); __PYX_ERR(0, 32, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("proc", 1, 2, 2, 1); __PYX_ERR(0, 34, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "proc") < 0)) __PYX_ERR(0, 32, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "proc") < 0)) __PYX_ERR(0, 34, __pyx_L3_error)
       }
     } else if (unlikely(__pyx_nargs != 2)) {
       goto __pyx_L5_argtuple_error;
@@ -3324,7 +3380,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("proc", 1, 2, 2, __pyx_nargs); __PYX_ERR(0, 32, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("proc", 1, 2, 2, __pyx_nargs); __PYX_ERR(0, 34, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("Orig_PLL.NumericallyControlledOscillator.proc", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -3346,220 +3402,329 @@ static PyObject *__pyx_pf_8Orig_PLL_31NumericallyControlledOscillator_2proc(CYTH
   PyObject *__pyx_t_2 = NULL;
   PyObject *__pyx_t_3 = NULL;
   PyObject *__pyx_t_4 = NULL;
-  int __pyx_t_5;
+  PyObject *__pyx_t_5 = NULL;
   int __pyx_t_6;
+  int __pyx_t_7;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("proc", 0);
 
-  /* "Orig_PLL.py":33
+  /* "Orig_PLL.py":35
  * 
  *     def proc( self, e_F ):
  *         self.theta += 2*np.pi*self.f/self.fs + self.K_0 * e_F             # <<<<<<<<<<<<<<
+ *         self.theta_multi += self.f_multiplier*(2*np.pi*self.f/self.fs + self.K_0 * e_F)
+ *         if self.theta > 2*np.pi:
+ */
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_theta); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_pi); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_PyInt_MultiplyCObj(__pyx_int_2, __pyx_t_3, 2, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_f); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = PyNumber_Multiply(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_fs); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_2 = __Pyx_PyNumber_Divide(__pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_K_0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = PyNumber_Multiply(__pyx_t_3, __pyx_v_e_F); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = PyNumber_Add(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_4 = PyNumber_InPlaceAdd(__pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_theta, __pyx_t_4) < 0) __PYX_ERR(0, 35, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+  /* "Orig_PLL.py":36
+ *     def proc( self, e_F ):
+ *         self.theta += 2*np.pi*self.f/self.fs + self.K_0 * e_F
+ *         self.theta_multi += self.f_multiplier*(2*np.pi*self.f/self.fs + self.K_0 * e_F)             # <<<<<<<<<<<<<<
  *         if self.theta > 2*np.pi:
  *             self.theta -= 2*np.pi
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_theta); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_theta_multi); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_f_multiplier); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_pi); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_pi); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 33, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyInt_MultiplyCObj(__pyx_int_2, __pyx_t_3, 2, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 33, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_f); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 33, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyNumber_Multiply(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 33, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_fs); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 33, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyNumber_Divide(__pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 33, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_K_0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 33, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyNumber_Multiply(__pyx_t_3, __pyx_v_e_F); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 33, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyNumber_Add(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 33, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PyNumber_InPlaceAdd(__pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 33, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyInt_MultiplyCObj(__pyx_int_2, __pyx_t_2, 2, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_f); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_5 = PyNumber_Multiply(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_fs); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_t_5, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_K_0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_5 = PyNumber_Multiply(__pyx_t_2, __pyx_v_e_F); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = PyNumber_Add(__pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_5 = PyNumber_Multiply(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_theta, __pyx_t_4) < 0) __PYX_ERR(0, 33, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = PyNumber_InPlaceAdd(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_theta_multi, __pyx_t_2) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "Orig_PLL.py":34
- *     def proc( self, e_F ):
+  /* "Orig_PLL.py":37
  *         self.theta += 2*np.pi*self.f/self.fs + self.K_0 * e_F
+ *         self.theta_multi += self.f_multiplier*(2*np.pi*self.f/self.fs + self.K_0 * e_F)
  *         if self.theta > 2*np.pi:             # <<<<<<<<<<<<<<
  *             self.theta -= 2*np.pi
- * 
+ *         if self.theta_multi > 2*np.pi:
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_theta); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_theta); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_pi); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 34, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_pi); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyInt_MultiplyCObj(__pyx_int_2, __pyx_t_1, 2, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 34, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyObject_RichCompare(__pyx_t_4, __pyx_t_3, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_5 = __Pyx_PyInt_MultiplyCObj(__pyx_int_2, __pyx_t_4, 2, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely((__pyx_t_5 < 0))) __PYX_ERR(0, 34, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__pyx_t_5) {
+  __pyx_t_4 = PyObject_RichCompare(__pyx_t_2, __pyx_t_5, Py_GT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely((__pyx_t_6 < 0))) __PYX_ERR(0, 37, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  if (__pyx_t_6) {
 
-    /* "Orig_PLL.py":35
- *         self.theta += 2*np.pi*self.f/self.fs + self.K_0 * e_F
+    /* "Orig_PLL.py":38
+ *         self.theta_multi += self.f_multiplier*(2*np.pi*self.f/self.fs + self.K_0 * e_F)
  *         if self.theta > 2*np.pi:
  *             self.theta -= 2*np.pi             # <<<<<<<<<<<<<<
- * 
- *         cosOut = np.cos( self.theta  )
+ *         if self.theta_multi > 2*np.pi:
+ *             self.theta_multi -= 2*np.pi
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_theta); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 35, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 35, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_pi); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 35, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_theta); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 38, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyInt_MultiplyCObj(__pyx_int_2, __pyx_t_4, 2, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 35, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 38, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_pi); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 38, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_5 = __Pyx_PyInt_MultiplyCObj(__pyx_int_2, __pyx_t_2, 2, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 38, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_2 = PyNumber_InPlaceSubtract(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 38, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = PyNumber_InPlaceSubtract(__pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 35, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_theta, __pyx_t_4) < 0) __PYX_ERR(0, 35, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_theta, __pyx_t_2) < 0) __PYX_ERR(0, 38, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "Orig_PLL.py":34
- *     def proc( self, e_F ):
+    /* "Orig_PLL.py":37
  *         self.theta += 2*np.pi*self.f/self.fs + self.K_0 * e_F
+ *         self.theta_multi += self.f_multiplier*(2*np.pi*self.f/self.fs + self.K_0 * e_F)
  *         if self.theta > 2*np.pi:             # <<<<<<<<<<<<<<
  *             self.theta -= 2*np.pi
+ *         if self.theta_multi > 2*np.pi:
+ */
+  }
+
+  /* "Orig_PLL.py":39
+ *         if self.theta > 2*np.pi:
+ *             self.theta -= 2*np.pi
+ *         if self.theta_multi > 2*np.pi:             # <<<<<<<<<<<<<<
+ *             self.theta_multi -= 2*np.pi
+ * 
+ */
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_theta_multi); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_pi); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_5 = __Pyx_PyInt_MultiplyCObj(__pyx_int_2, __pyx_t_4, 2, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_4 = PyObject_RichCompare(__pyx_t_2, __pyx_t_5, Py_GT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely((__pyx_t_6 < 0))) __PYX_ERR(0, 39, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  if (__pyx_t_6) {
+
+    /* "Orig_PLL.py":40
+ *             self.theta -= 2*np.pi
+ *         if self.theta_multi > 2*np.pi:
+ *             self.theta_multi -= 2*np.pi             # <<<<<<<<<<<<<<
+ * 
+ *         cosOut = np.cos( self.theta_multi  )
+ */
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_theta_multi); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 40, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 40, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_pi); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 40, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_5 = __Pyx_PyInt_MultiplyCObj(__pyx_int_2, __pyx_t_2, 2, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 40, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_2 = PyNumber_InPlaceSubtract(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 40, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_theta_multi, __pyx_t_2) < 0) __PYX_ERR(0, 40, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+    /* "Orig_PLL.py":39
+ *         if self.theta > 2*np.pi:
+ *             self.theta -= 2*np.pi
+ *         if self.theta_multi > 2*np.pi:             # <<<<<<<<<<<<<<
+ *             self.theta_multi -= 2*np.pi
  * 
  */
   }
 
-  /* "Orig_PLL.py":37
- *             self.theta -= 2*np.pi
+  /* "Orig_PLL.py":42
+ *             self.theta_multi -= 2*np.pi
  * 
- *         cosOut = np.cos( self.theta  )             # <<<<<<<<<<<<<<
+ *         cosOut = np.cos( self.theta_multi  )             # <<<<<<<<<<<<<<
  *         sinOut = -np.sin( self.theta  )
  *         return cosOut, sinOut
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 37, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_cos); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_theta); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 37, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = NULL;
-  __pyx_t_6 = 0;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_1))) {
-    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_1);
-    if (likely(__pyx_t_2)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
-      __Pyx_INCREF(__pyx_t_2);
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_cos); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_theta_multi); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_3 = NULL;
+  __pyx_t_7 = 0;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_3)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_3);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_1, function);
-      __pyx_t_6 = 1;
+      __Pyx_DECREF_SET(__pyx_t_4, function);
+      __pyx_t_7 = 1;
     }
   }
   {
-    PyObject *__pyx_callargs[2] = {__pyx_t_2, __pyx_t_3};
-    __pyx_t_4 = __Pyx_PyObject_FastCall(__pyx_t_1, __pyx_callargs+1-__pyx_t_6, 1+__pyx_t_6);
-    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 37, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    PyObject *__pyx_callargs[2] = {__pyx_t_3, __pyx_t_5};
+    __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_7, 1+__pyx_t_7);
+    __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
-  __pyx_v_cosOut = __pyx_t_4;
-  __pyx_t_4 = 0;
+  __pyx_v_cosOut = __pyx_t_2;
+  __pyx_t_2 = 0;
 
-  /* "Orig_PLL.py":38
+  /* "Orig_PLL.py":43
  * 
- *         cosOut = np.cos( self.theta  )
+ *         cosOut = np.cos( self.theta_multi  )
  *         sinOut = -np.sin( self.theta  )             # <<<<<<<<<<<<<<
  *         return cosOut, sinOut
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_sin); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 38, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_theta); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = NULL;
-  __pyx_t_6 = 0;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_2)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_2);
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 43, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_sin); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 43, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_theta); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 43, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_3 = NULL;
+  __pyx_t_7 = 0;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_5);
+    if (likely(__pyx_t_3)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+      __Pyx_INCREF(__pyx_t_3);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_3, function);
-      __pyx_t_6 = 1;
+      __Pyx_DECREF_SET(__pyx_t_5, function);
+      __pyx_t_7 = 1;
     }
   }
   {
-    PyObject *__pyx_callargs[2] = {__pyx_t_2, __pyx_t_1};
-    __pyx_t_4 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_6, 1+__pyx_t_6);
-    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 38, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    PyObject *__pyx_callargs[2] = {__pyx_t_3, __pyx_t_4};
+    __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_5, __pyx_callargs+1-__pyx_t_7, 1+__pyx_t_7);
+    __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 43, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   }
-  __pyx_t_3 = PyNumber_Negative(__pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 38, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_sinOut = __pyx_t_3;
-  __pyx_t_3 = 0;
+  __pyx_t_5 = PyNumber_Negative(__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 43, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_v_sinOut = __pyx_t_5;
+  __pyx_t_5 = 0;
 
-  /* "Orig_PLL.py":39
- *         cosOut = np.cos( self.theta  )
+  /* "Orig_PLL.py":44
+ *         cosOut = np.cos( self.theta_multi  )
  *         sinOut = -np.sin( self.theta  )
  *         return cosOut, sinOut             # <<<<<<<<<<<<<<
  * 
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 39, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
   __Pyx_INCREF(__pyx_v_cosOut);
   __Pyx_GIVEREF(__pyx_v_cosOut);
-  PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_cosOut);
+  PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_cosOut);
   __Pyx_INCREF(__pyx_v_sinOut);
   __Pyx_GIVEREF(__pyx_v_sinOut);
-  PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_v_sinOut);
-  __pyx_r = __pyx_t_3;
-  __pyx_t_3 = 0;
+  PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_v_sinOut);
+  __pyx_r = __pyx_t_5;
+  __pyx_t_5 = 0;
   goto __pyx_L0;
 
-  /* "Orig_PLL.py":32
- *         self.phaseEstimate = 0
+  /* "Orig_PLL.py":34
+ *         self.f_multiplier = f_multiplier
  * 
  *     def proc( self, e_F ):             # <<<<<<<<<<<<<<
  *         self.theta += 2*np.pi*self.f/self.fs + self.K_0 * e_F
- *         if self.theta > 2*np.pi:
+ *         self.theta_multi += self.f_multiplier*(2*np.pi*self.f/self.fs + self.K_0 * e_F)
  */
 
   /* function exit code */
@@ -3568,6 +3733,7 @@ static PyObject *__pyx_pf_8Orig_PLL_31NumericallyControlledOscillator_2proc(CYTH
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
   __Pyx_AddTraceback("Orig_PLL.NumericallyControlledOscillator.proc", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -3578,10 +3744,10 @@ static PyObject *__pyx_pf_8Orig_PLL_31NumericallyControlledOscillator_2proc(CYTH
   return __pyx_r;
 }
 
-/* "Orig_PLL.py":43
+/* "Orig_PLL.py":48
  * 
  * class PhaseLockedLoop:
- *     def __init__( self, K_i, K_p, K_0, pll_f, fs ) -> None:             # <<<<<<<<<<<<<<
+ *     def __init__( self, K_i, K_p, K_0, pll_f, fs, f_multiplier=1 ) -> None:             # <<<<<<<<<<<<<<
  *         self.pd = PhaseDetector()
  *         self.lf = LoopFilter( K_i, K_p, fs )
  */
@@ -3608,6 +3774,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   PyObject *__pyx_v_K_0 = 0;
   PyObject *__pyx_v_pll_f = 0;
   PyObject *__pyx_v_fs = 0;
+  PyObject *__pyx_v_f_multiplier = 0;
   #if !CYTHON_METH_FASTCALL
   CYTHON_UNUSED const Py_ssize_t __pyx_nargs = PyTuple_GET_SIZE(__pyx_args);
   #endif
@@ -3619,11 +3786,14 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
   {
-    PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_K_i,&__pyx_n_s_K_p,&__pyx_n_s_K_0,&__pyx_n_s_pll_f,&__pyx_n_s_fs,0};
-    PyObject* values[6] = {0,0,0,0,0,0};
+    PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_K_i,&__pyx_n_s_K_p,&__pyx_n_s_K_0,&__pyx_n_s_pll_f,&__pyx_n_s_fs,&__pyx_n_s_f_multiplier,0};
+    PyObject* values[7] = {0,0,0,0,0,0,0};
+    values[6] = ((PyObject *)((PyObject *)__pyx_int_1));
     if (__pyx_kwds) {
       Py_ssize_t kw_args;
       switch (__pyx_nargs) {
+        case  7: values[6] = __Pyx_Arg_FASTCALL(__pyx_args, 6);
+        CYTHON_FALLTHROUGH;
         case  6: values[5] = __Pyx_Arg_FASTCALL(__pyx_args, 5);
         CYTHON_FALLTHROUGH;
         case  5: values[4] = __Pyx_Arg_FASTCALL(__pyx_args, 4);
@@ -3643,57 +3813,68 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
       switch (__pyx_nargs) {
         case  0:
         if (likely((values[0] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_self)) != 0)) kw_args--;
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 43, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 48, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
         CYTHON_FALLTHROUGH;
         case  1:
         if (likely((values[1] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_K_i)) != 0)) kw_args--;
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 43, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 48, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 6, 6, 1); __PYX_ERR(0, 43, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 6, 7, 1); __PYX_ERR(0, 48, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_K_p)) != 0)) kw_args--;
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 43, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 48, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 6, 6, 2); __PYX_ERR(0, 43, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 6, 7, 2); __PYX_ERR(0, 48, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_K_0)) != 0)) kw_args--;
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 43, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 48, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 6, 6, 3); __PYX_ERR(0, 43, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 6, 7, 3); __PYX_ERR(0, 48, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
         if (likely((values[4] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_pll_f)) != 0)) kw_args--;
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 43, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 48, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 6, 6, 4); __PYX_ERR(0, 43, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 6, 7, 4); __PYX_ERR(0, 48, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  5:
         if (likely((values[5] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_fs)) != 0)) kw_args--;
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 43, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 48, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 6, 6, 5); __PYX_ERR(0, 43, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 6, 7, 5); __PYX_ERR(0, 48, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  6:
+        if (kw_args > 0) {
+          PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_f_multiplier);
+          if (value) { values[6] = value; kw_args--; }
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 48, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "__init__") < 0)) __PYX_ERR(0, 43, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "__init__") < 0)) __PYX_ERR(0, 48, __pyx_L3_error)
       }
-    } else if (unlikely(__pyx_nargs != 6)) {
-      goto __pyx_L5_argtuple_error;
     } else {
-      values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
-      values[1] = __Pyx_Arg_FASTCALL(__pyx_args, 1);
-      values[2] = __Pyx_Arg_FASTCALL(__pyx_args, 2);
-      values[3] = __Pyx_Arg_FASTCALL(__pyx_args, 3);
-      values[4] = __Pyx_Arg_FASTCALL(__pyx_args, 4);
-      values[5] = __Pyx_Arg_FASTCALL(__pyx_args, 5);
+      switch (__pyx_nargs) {
+        case  7: values[6] = __Pyx_Arg_FASTCALL(__pyx_args, 6);
+        CYTHON_FALLTHROUGH;
+        case  6: values[5] = __Pyx_Arg_FASTCALL(__pyx_args, 5);
+        values[4] = __Pyx_Arg_FASTCALL(__pyx_args, 4);
+        values[3] = __Pyx_Arg_FASTCALL(__pyx_args, 3);
+        values[2] = __Pyx_Arg_FASTCALL(__pyx_args, 2);
+        values[1] = __Pyx_Arg_FASTCALL(__pyx_args, 1);
+        values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
+        break;
+        default: goto __pyx_L5_argtuple_error;
+      }
     }
     __pyx_v_self = values[0];
     __pyx_v_K_i = values[1];
@@ -3701,23 +3882,24 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
     __pyx_v_K_0 = values[3];
     __pyx_v_pll_f = values[4];
     __pyx_v_fs = values[5];
+    __pyx_v_f_multiplier = values[6];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 6, 6, __pyx_nargs); __PYX_ERR(0, 43, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 6, 7, __pyx_nargs); __PYX_ERR(0, 48, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("Orig_PLL.PhaseLockedLoop.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8Orig_PLL_15PhaseLockedLoop___init__(__pyx_self, __pyx_v_self, __pyx_v_K_i, __pyx_v_K_p, __pyx_v_K_0, __pyx_v_pll_f, __pyx_v_fs);
+  __pyx_r = __pyx_pf_8Orig_PLL_15PhaseLockedLoop___init__(__pyx_self, __pyx_v_self, __pyx_v_K_i, __pyx_v_K_p, __pyx_v_K_0, __pyx_v_pll_f, __pyx_v_fs, __pyx_v_f_multiplier);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8Orig_PLL_15PhaseLockedLoop___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_K_i, PyObject *__pyx_v_K_p, PyObject *__pyx_v_K_0, PyObject *__pyx_v_pll_f, PyObject *__pyx_v_fs) {
+static PyObject *__pyx_pf_8Orig_PLL_15PhaseLockedLoop___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_K_i, PyObject *__pyx_v_K_p, PyObject *__pyx_v_K_0, PyObject *__pyx_v_pll_f, PyObject *__pyx_v_fs, PyObject *__pyx_v_f_multiplier) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -3729,14 +3911,14 @@ static PyObject *__pyx_pf_8Orig_PLL_15PhaseLockedLoop___init__(CYTHON_UNUSED PyO
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "Orig_PLL.py":44
+  /* "Orig_PLL.py":49
  * class PhaseLockedLoop:
- *     def __init__( self, K_i, K_p, K_0, pll_f, fs ) -> None:
+ *     def __init__( self, K_i, K_p, K_0, pll_f, fs, f_multiplier=1 ) -> None:
  *         self.pd = PhaseDetector()             # <<<<<<<<<<<<<<
  *         self.lf = LoopFilter( K_i, K_p, fs )
- *         self.nco = NumericallyControlledOscillator( K_0, pll_f, fs )
+ *         self.nco = NumericallyControlledOscillator( K_0, pll_f, fs, f_multiplier )
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_PhaseDetector); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_PhaseDetector); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 49, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   __pyx_t_4 = 0;
@@ -3754,21 +3936,21 @@ static PyObject *__pyx_pf_8Orig_PLL_15PhaseLockedLoop___init__(CYTHON_UNUSED PyO
     PyObject *__pyx_callargs[1] = {__pyx_t_3, };
     __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_2, __pyx_callargs+1-__pyx_t_4, 0+__pyx_t_4);
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 49, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_pd, __pyx_t_1) < 0) __PYX_ERR(0, 44, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_pd, __pyx_t_1) < 0) __PYX_ERR(0, 49, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "Orig_PLL.py":45
- *     def __init__( self, K_i, K_p, K_0, pll_f, fs ) -> None:
+  /* "Orig_PLL.py":50
+ *     def __init__( self, K_i, K_p, K_0, pll_f, fs, f_multiplier=1 ) -> None:
  *         self.pd = PhaseDetector()
  *         self.lf = LoopFilter( K_i, K_p, fs )             # <<<<<<<<<<<<<<
- *         self.nco = NumericallyControlledOscillator( K_0, pll_f, fs )
+ *         self.nco = NumericallyControlledOscillator( K_0, pll_f, fs, f_multiplier )
  *         self.lastSinOut = 0
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_LoopFilter); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_LoopFilter); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   __pyx_t_4 = 0;
@@ -3786,21 +3968,21 @@ static PyObject *__pyx_pf_8Orig_PLL_15PhaseLockedLoop___init__(CYTHON_UNUSED PyO
     PyObject *__pyx_callargs[4] = {__pyx_t_3, __pyx_v_K_i, __pyx_v_K_p, __pyx_v_fs};
     __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_2, __pyx_callargs+1-__pyx_t_4, 3+__pyx_t_4);
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 50, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_lf, __pyx_t_1) < 0) __PYX_ERR(0, 45, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_lf, __pyx_t_1) < 0) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "Orig_PLL.py":46
+  /* "Orig_PLL.py":51
  *         self.pd = PhaseDetector()
  *         self.lf = LoopFilter( K_i, K_p, fs )
- *         self.nco = NumericallyControlledOscillator( K_0, pll_f, fs )             # <<<<<<<<<<<<<<
+ *         self.nco = NumericallyControlledOscillator( K_0, pll_f, fs, f_multiplier )             # <<<<<<<<<<<<<<
  *         self.lastSinOut = 0
  *     def proc( self, in_, ):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_NumericallyControlledOscillator); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_NumericallyControlledOscillator); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 51, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   __pyx_t_4 = 0;
@@ -3815,29 +3997,29 @@ static PyObject *__pyx_pf_8Orig_PLL_15PhaseLockedLoop___init__(CYTHON_UNUSED PyO
     }
   }
   {
-    PyObject *__pyx_callargs[4] = {__pyx_t_3, __pyx_v_K_0, __pyx_v_pll_f, __pyx_v_fs};
-    __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_2, __pyx_callargs+1-__pyx_t_4, 3+__pyx_t_4);
+    PyObject *__pyx_callargs[5] = {__pyx_t_3, __pyx_v_K_0, __pyx_v_pll_f, __pyx_v_fs, __pyx_v_f_multiplier};
+    __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_2, __pyx_callargs+1-__pyx_t_4, 4+__pyx_t_4);
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 51, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_nco, __pyx_t_1) < 0) __PYX_ERR(0, 46, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_nco, __pyx_t_1) < 0) __PYX_ERR(0, 51, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "Orig_PLL.py":47
+  /* "Orig_PLL.py":52
  *         self.lf = LoopFilter( K_i, K_p, fs )
- *         self.nco = NumericallyControlledOscillator( K_0, pll_f, fs )
+ *         self.nco = NumericallyControlledOscillator( K_0, pll_f, fs, f_multiplier )
  *         self.lastSinOut = 0             # <<<<<<<<<<<<<<
  *     def proc( self, in_, ):
  *         e_D = self.pd.proc( in_, self.lastSinOut )
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_lastSinOut, __pyx_int_0) < 0) __PYX_ERR(0, 47, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_lastSinOut, __pyx_int_0) < 0) __PYX_ERR(0, 52, __pyx_L1_error)
 
-  /* "Orig_PLL.py":43
+  /* "Orig_PLL.py":48
  * 
  * class PhaseLockedLoop:
- *     def __init__( self, K_i, K_p, K_0, pll_f, fs ) -> None:             # <<<<<<<<<<<<<<
+ *     def __init__( self, K_i, K_p, K_0, pll_f, fs, f_multiplier=1 ) -> None:             # <<<<<<<<<<<<<<
  *         self.pd = PhaseDetector()
  *         self.lf = LoopFilter( K_i, K_p, fs )
  */
@@ -3857,8 +4039,8 @@ static PyObject *__pyx_pf_8Orig_PLL_15PhaseLockedLoop___init__(CYTHON_UNUSED PyO
   return __pyx_r;
 }
 
-/* "Orig_PLL.py":48
- *         self.nco = NumericallyControlledOscillator( K_0, pll_f, fs )
+/* "Orig_PLL.py":53
+ *         self.nco = NumericallyControlledOscillator( K_0, pll_f, fs, f_multiplier )
  *         self.lastSinOut = 0
  *     def proc( self, in_, ):             # <<<<<<<<<<<<<<
  *         e_D = self.pd.proc( in_, self.lastSinOut )
@@ -3910,19 +4092,19 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
       switch (__pyx_nargs) {
         case  0:
         if (likely((values[0] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_self)) != 0)) kw_args--;
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 48, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 53, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
         CYTHON_FALLTHROUGH;
         case  1:
         if (likely((values[1] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_in)) != 0)) kw_args--;
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 48, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 53, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("proc", 1, 2, 2, 1); __PYX_ERR(0, 48, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("proc", 1, 2, 2, 1); __PYX_ERR(0, 53, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "proc") < 0)) __PYX_ERR(0, 48, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "proc") < 0)) __PYX_ERR(0, 53, __pyx_L3_error)
       }
     } else if (unlikely(__pyx_nargs != 2)) {
       goto __pyx_L5_argtuple_error;
@@ -3935,7 +4117,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("proc", 1, 2, 2, __pyx_nargs); __PYX_ERR(0, 48, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("proc", 1, 2, 2, __pyx_nargs); __PYX_ERR(0, 53, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("Orig_PLL.PhaseLockedLoop.proc", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -3966,19 +4148,19 @@ static PyObject *__pyx_pf_8Orig_PLL_15PhaseLockedLoop_2proc(CYTHON_UNUSED PyObje
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("proc", 0);
 
-  /* "Orig_PLL.py":49
+  /* "Orig_PLL.py":54
  *         self.lastSinOut = 0
  *     def proc( self, in_, ):
  *         e_D = self.pd.proc( in_, self.lastSinOut )             # <<<<<<<<<<<<<<
  * 
  *         e_F = self.lf.proc( e_D )
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_pd); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_pd); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_proc); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_proc); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_lastSinOut); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_lastSinOut); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_4 = NULL;
   __pyx_t_5 = 0;
@@ -3997,23 +4179,23 @@ static PyObject *__pyx_pf_8Orig_PLL_15PhaseLockedLoop_2proc(CYTHON_UNUSED PyObje
     __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_5, 2+__pyx_t_5);
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 49, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 54, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   }
   __pyx_v_e_D = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "Orig_PLL.py":51
+  /* "Orig_PLL.py":56
  *         e_D = self.pd.proc( in_, self.lastSinOut )
  * 
  *         e_F = self.lf.proc( e_D )             # <<<<<<<<<<<<<<
  * 
  *         cosOut, sinOut  = self.nco.proc(e_F)
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_lf); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 51, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_lf); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 56, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_proc); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 51, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_proc); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 56, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -4032,23 +4214,23 @@ static PyObject *__pyx_pf_8Orig_PLL_15PhaseLockedLoop_2proc(CYTHON_UNUSED PyObje
     PyObject *__pyx_callargs[2] = {__pyx_t_3, __pyx_v_e_D};
     __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_2, __pyx_callargs+1-__pyx_t_5, 1+__pyx_t_5);
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 51, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 56, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
   __pyx_v_e_F = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "Orig_PLL.py":53
+  /* "Orig_PLL.py":58
  *         e_F = self.lf.proc( e_D )
  * 
  *         cosOut, sinOut  = self.nco.proc(e_F)             # <<<<<<<<<<<<<<
  *         self.lastSinOut = sinOut
  *         return cosOut, sinOut, e_D, e_F
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_nco); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 53, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_nco); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_proc); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 53, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_proc); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -4067,7 +4249,7 @@ static PyObject *__pyx_pf_8Orig_PLL_15PhaseLockedLoop_2proc(CYTHON_UNUSED PyObje
     PyObject *__pyx_callargs[2] = {__pyx_t_2, __pyx_v_e_F};
     __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_5, 1+__pyx_t_5);
     __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 58, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   }
@@ -4077,7 +4259,7 @@ static PyObject *__pyx_pf_8Orig_PLL_15PhaseLockedLoop_2proc(CYTHON_UNUSED PyObje
     if (unlikely(size != 2)) {
       if (size > 2) __Pyx_RaiseTooManyValuesError(2);
       else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-      __PYX_ERR(0, 53, __pyx_L1_error)
+      __PYX_ERR(0, 58, __pyx_L1_error)
     }
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
     if (likely(PyTuple_CheckExact(sequence))) {
@@ -4090,15 +4272,15 @@ static PyObject *__pyx_pf_8Orig_PLL_15PhaseLockedLoop_2proc(CYTHON_UNUSED PyObje
     __Pyx_INCREF(__pyx_t_3);
     __Pyx_INCREF(__pyx_t_2);
     #else
-    __pyx_t_3 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 53, __pyx_L1_error)
+    __pyx_t_3 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 58, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_2 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 53, __pyx_L1_error)
+    __pyx_t_2 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 58, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     #endif
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   } else {
     Py_ssize_t index = -1;
-    __pyx_t_4 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 53, __pyx_L1_error)
+    __pyx_t_4 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 58, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_6 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_4);
@@ -4106,7 +4288,7 @@ static PyObject *__pyx_pf_8Orig_PLL_15PhaseLockedLoop_2proc(CYTHON_UNUSED PyObje
     __Pyx_GOTREF(__pyx_t_3);
     index = 1; __pyx_t_2 = __pyx_t_6(__pyx_t_4); if (unlikely(!__pyx_t_2)) goto __pyx_L3_unpacking_failed;
     __Pyx_GOTREF(__pyx_t_2);
-    if (__Pyx_IternextUnpackEndCheck(__pyx_t_6(__pyx_t_4), 2) < 0) __PYX_ERR(0, 53, __pyx_L1_error)
+    if (__Pyx_IternextUnpackEndCheck(__pyx_t_6(__pyx_t_4), 2) < 0) __PYX_ERR(0, 58, __pyx_L1_error)
     __pyx_t_6 = NULL;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     goto __pyx_L4_unpacking_done;
@@ -4114,7 +4296,7 @@ static PyObject *__pyx_pf_8Orig_PLL_15PhaseLockedLoop_2proc(CYTHON_UNUSED PyObje
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_6 = NULL;
     if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-    __PYX_ERR(0, 53, __pyx_L1_error)
+    __PYX_ERR(0, 58, __pyx_L1_error)
     __pyx_L4_unpacking_done:;
   }
   __pyx_v_cosOut = __pyx_t_3;
@@ -4122,21 +4304,21 @@ static PyObject *__pyx_pf_8Orig_PLL_15PhaseLockedLoop_2proc(CYTHON_UNUSED PyObje
   __pyx_v_sinOut = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "Orig_PLL.py":54
+  /* "Orig_PLL.py":59
  * 
  *         cosOut, sinOut  = self.nco.proc(e_F)
  *         self.lastSinOut = sinOut             # <<<<<<<<<<<<<<
  *         return cosOut, sinOut, e_D, e_F
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_lastSinOut, __pyx_v_sinOut) < 0) __PYX_ERR(0, 54, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_lastSinOut, __pyx_v_sinOut) < 0) __PYX_ERR(0, 59, __pyx_L1_error)
 
-  /* "Orig_PLL.py":55
+  /* "Orig_PLL.py":60
  *         cosOut, sinOut  = self.nco.proc(e_F)
  *         self.lastSinOut = sinOut
  *         return cosOut, sinOut, e_D, e_F             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyTuple_New(4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 55, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 60, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_v_cosOut);
   __Pyx_GIVEREF(__pyx_v_cosOut);
@@ -4154,8 +4336,8 @@ static PyObject *__pyx_pf_8Orig_PLL_15PhaseLockedLoop_2proc(CYTHON_UNUSED PyObje
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "Orig_PLL.py":48
- *         self.nco = NumericallyControlledOscillator( K_0, pll_f, fs )
+  /* "Orig_PLL.py":53
+ *         self.nco = NumericallyControlledOscillator( K_0, pll_f, fs, f_multiplier )
  *         self.lastSinOut = 0
  *     def proc( self, in_, ):             # <<<<<<<<<<<<<<
  *         e_D = self.pd.proc( in_, self.lastSinOut )
@@ -4214,7 +4396,7 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
     {&__pyx_n_s_PhaseLockedLoop, __pyx_k_PhaseLockedLoop, sizeof(__pyx_k_PhaseLockedLoop), 0, 0, 1, 1},
     {&__pyx_n_s_PhaseLockedLoop___init, __pyx_k_PhaseLockedLoop___init, sizeof(__pyx_k_PhaseLockedLoop___init), 0, 0, 1, 1},
     {&__pyx_n_s_PhaseLockedLoop_proc, __pyx_k_PhaseLockedLoop_proc, sizeof(__pyx_k_PhaseLockedLoop_proc), 0, 0, 1, 1},
-    {&__pyx_n_s__18, __pyx_k__18, sizeof(__pyx_k__18), 0, 0, 1, 1},
+    {&__pyx_n_s__20, __pyx_k__20, sizeof(__pyx_k__20), 0, 0, 1, 1},
     {&__pyx_n_s_asyncio_coroutines, __pyx_k_asyncio_coroutines, sizeof(__pyx_k_asyncio_coroutines), 0, 0, 1, 1},
     {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
     {&__pyx_n_s_cos, __pyx_k_cos, sizeof(__pyx_k_cos), 0, 0, 1, 1},
@@ -4224,6 +4406,7 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
     {&__pyx_n_s_e_D, __pyx_k_e_D, sizeof(__pyx_k_e_D), 0, 0, 1, 1},
     {&__pyx_n_s_e_F, __pyx_k_e_F, sizeof(__pyx_k_e_F), 0, 0, 1, 1},
     {&__pyx_n_s_f, __pyx_k_f, sizeof(__pyx_k_f), 0, 0, 1, 1},
+    {&__pyx_n_s_f_multiplier, __pyx_k_f_multiplier, sizeof(__pyx_k_f_multiplier), 0, 0, 1, 1},
     {&__pyx_n_s_fs, __pyx_k_fs, sizeof(__pyx_k_fs), 0, 0, 1, 1},
     {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
     {&__pyx_n_s_in, __pyx_k_in, sizeof(__pyx_k_in), 0, 0, 1, 1},
@@ -4260,6 +4443,7 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
     {&__pyx_n_s_super, __pyx_k_super, sizeof(__pyx_k_super), 0, 0, 1, 1},
     {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
     {&__pyx_n_s_theta, __pyx_k_theta, sizeof(__pyx_k_theta), 0, 0, 1, 1},
+    {&__pyx_n_s_theta_multi, __pyx_k_theta_multi, sizeof(__pyx_k_theta_multi), 0, 0, 1, 1},
     {0, 0, 0, 0, 0, 0, 0}
   };
   return __Pyx_InitStrings(__pyx_string_tab);
@@ -4325,50 +4509,56 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   /* "Orig_PLL.py":25
  * 
  * class NumericallyControlledOscillator:
- *     def __init__( self, K_0, f, fs ) -> None:             # <<<<<<<<<<<<<<
+ *     def __init__( self, K_0, f, fs, f_multiplier=1 ) -> None:             # <<<<<<<<<<<<<<
  *         self.K_0 = K_0
  *         self.f = f
  */
-  __pyx_tuple__10 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_K_0, __pyx_n_s_f, __pyx_n_s_fs); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 25, __pyx_L1_error)
+  __pyx_tuple__10 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_K_0, __pyx_n_s_f, __pyx_n_s_fs, __pyx_n_s_f_multiplier); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__10);
   __Pyx_GIVEREF(__pyx_tuple__10);
-  __pyx_codeobj__11 = (PyObject*)__Pyx_PyCode_New(4, 0, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__10, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_Orig_PLL_py, __pyx_n_s_init, 25, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__11)) __PYX_ERR(0, 25, __pyx_L1_error)
+  __pyx_codeobj__11 = (PyObject*)__Pyx_PyCode_New(5, 0, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__10, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_Orig_PLL_py, __pyx_n_s_init, 25, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__11)) __PYX_ERR(0, 25, __pyx_L1_error)
+  __pyx_tuple__12 = PyTuple_Pack(1, ((PyObject *)__pyx_int_1)); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 25, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__12);
+  __Pyx_GIVEREF(__pyx_tuple__12);
 
-  /* "Orig_PLL.py":32
- *         self.phaseEstimate = 0
+  /* "Orig_PLL.py":34
+ *         self.f_multiplier = f_multiplier
  * 
  *     def proc( self, e_F ):             # <<<<<<<<<<<<<<
  *         self.theta += 2*np.pi*self.f/self.fs + self.K_0 * e_F
- *         if self.theta > 2*np.pi:
+ *         self.theta_multi += self.f_multiplier*(2*np.pi*self.f/self.fs + self.K_0 * e_F)
  */
-  __pyx_tuple__12 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_e_F, __pyx_n_s_cosOut, __pyx_n_s_sinOut); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 32, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__12);
-  __Pyx_GIVEREF(__pyx_tuple__12);
-  __pyx_codeobj__13 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__12, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_Orig_PLL_py, __pyx_n_s_proc, 32, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__13)) __PYX_ERR(0, 32, __pyx_L1_error)
+  __pyx_tuple__13 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_e_F, __pyx_n_s_cosOut, __pyx_n_s_sinOut); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__13);
+  __Pyx_GIVEREF(__pyx_tuple__13);
+  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_Orig_PLL_py, __pyx_n_s_proc, 34, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) __PYX_ERR(0, 34, __pyx_L1_error)
 
-  /* "Orig_PLL.py":43
+  /* "Orig_PLL.py":48
  * 
  * class PhaseLockedLoop:
- *     def __init__( self, K_i, K_p, K_0, pll_f, fs ) -> None:             # <<<<<<<<<<<<<<
+ *     def __init__( self, K_i, K_p, K_0, pll_f, fs, f_multiplier=1 ) -> None:             # <<<<<<<<<<<<<<
  *         self.pd = PhaseDetector()
  *         self.lf = LoopFilter( K_i, K_p, fs )
  */
-  __pyx_tuple__14 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_K_i, __pyx_n_s_K_p, __pyx_n_s_K_0, __pyx_n_s_pll_f, __pyx_n_s_fs); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(0, 43, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__14);
-  __Pyx_GIVEREF(__pyx_tuple__14);
-  __pyx_codeobj__15 = (PyObject*)__Pyx_PyCode_New(6, 0, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__14, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_Orig_PLL_py, __pyx_n_s_init, 43, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__15)) __PYX_ERR(0, 43, __pyx_L1_error)
+  __pyx_tuple__15 = PyTuple_Pack(7, __pyx_n_s_self, __pyx_n_s_K_i, __pyx_n_s_K_p, __pyx_n_s_K_0, __pyx_n_s_pll_f, __pyx_n_s_fs, __pyx_n_s_f_multiplier); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__15);
+  __Pyx_GIVEREF(__pyx_tuple__15);
+  __pyx_codeobj__16 = (PyObject*)__Pyx_PyCode_New(7, 0, 0, 7, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__15, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_Orig_PLL_py, __pyx_n_s_init, 48, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__16)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __pyx_tuple__17 = PyTuple_Pack(1, ((PyObject *)__pyx_int_1)); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__17);
+  __Pyx_GIVEREF(__pyx_tuple__17);
 
-  /* "Orig_PLL.py":48
- *         self.nco = NumericallyControlledOscillator( K_0, pll_f, fs )
+  /* "Orig_PLL.py":53
+ *         self.nco = NumericallyControlledOscillator( K_0, pll_f, fs, f_multiplier )
  *         self.lastSinOut = 0
  *     def proc( self, in_, ):             # <<<<<<<<<<<<<<
  *         e_D = self.pd.proc( in_, self.lastSinOut )
  * 
  */
-  __pyx_tuple__16 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_in, __pyx_n_s_e_D, __pyx_n_s_e_F, __pyx_n_s_cosOut, __pyx_n_s_sinOut); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(0, 48, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__16);
-  __Pyx_GIVEREF(__pyx_tuple__16);
-  __pyx_codeobj__17 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__16, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_Orig_PLL_py, __pyx_n_s_proc, 48, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__17)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __pyx_tuple__18 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_in, __pyx_n_s_e_D, __pyx_n_s_e_F, __pyx_n_s_cosOut, __pyx_n_s_sinOut); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(0, 53, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__18);
+  __Pyx_GIVEREF(__pyx_tuple__18);
+  __pyx_codeobj__19 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__18, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_Orig_PLL_py, __pyx_n_s_proc, 53, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__19)) __PYX_ERR(0, 53, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -4380,6 +4570,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
 static CYTHON_SMALL_CODE int __Pyx_InitConstants(void) {
   if (__Pyx_CreateStringTabAndInitStrings() < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_2 = PyInt_FromLong(2); if (unlikely(!__pyx_int_2)) __PYX_ERR(0, 1, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
@@ -4856,7 +5047,7 @@ if (!__Pyx_RefNanny) {
  * 
  * 
  * class NumericallyControlledOscillator:             # <<<<<<<<<<<<<<
- *     def __init__( self, K_0, f, fs ) -> None:
+ *     def __init__( self, K_0, f, fs, f_multiplier=1 ) -> None:
  *         self.K_0 = K_0
  */
   __pyx_t_2 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_NumericallyControlledOscillator, __pyx_n_s_NumericallyControlledOscillator, (PyObject *) NULL, __pyx_n_s_Orig_PLL, (PyObject *) NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 24, __pyx_L1_error)
@@ -4865,7 +5056,7 @@ if (!__Pyx_RefNanny) {
   /* "Orig_PLL.py":25
  * 
  * class NumericallyControlledOscillator:
- *     def __init__( self, K_0, f, fs ) -> None:             # <<<<<<<<<<<<<<
+ *     def __init__( self, K_0, f, fs, f_multiplier=1 ) -> None:             # <<<<<<<<<<<<<<
  *         self.K_0 = K_0
  *         self.f = f
  */
@@ -4874,28 +5065,29 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_return, __pyx_n_s_None) < 0) __PYX_ERR(0, 25, __pyx_L1_error)
   __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_8Orig_PLL_31NumericallyControlledOscillator_1__init__, 0, __pyx_n_s_NumericallyControlledOscillator_2, NULL, __pyx_n_s_Orig_PLL, __pyx_d, ((PyObject *)__pyx_codeobj__11)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_4, __pyx_tuple__12);
   __Pyx_CyFunction_SetAnnotationsDict(__pyx_t_4, __pyx_t_3);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_init, __pyx_t_4) < 0) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "Orig_PLL.py":32
- *         self.phaseEstimate = 0
+  /* "Orig_PLL.py":34
+ *         self.f_multiplier = f_multiplier
  * 
  *     def proc( self, e_F ):             # <<<<<<<<<<<<<<
  *         self.theta += 2*np.pi*self.f/self.fs + self.K_0 * e_F
- *         if self.theta > 2*np.pi:
+ *         self.theta_multi += self.f_multiplier*(2*np.pi*self.f/self.fs + self.K_0 * e_F)
  */
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_8Orig_PLL_31NumericallyControlledOscillator_3proc, 0, __pyx_n_s_NumericallyControlledOscillator_3, NULL, __pyx_n_s_Orig_PLL, __pyx_d, ((PyObject *)__pyx_codeobj__13)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 32, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_8Orig_PLL_31NumericallyControlledOscillator_3proc, 0, __pyx_n_s_NumericallyControlledOscillator_3, NULL, __pyx_n_s_Orig_PLL, __pyx_d, ((PyObject *)__pyx_codeobj__14)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_proc, __pyx_t_4) < 0) __PYX_ERR(0, 32, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_proc, __pyx_t_4) < 0) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
   /* "Orig_PLL.py":24
  * 
  * 
  * class NumericallyControlledOscillator:             # <<<<<<<<<<<<<<
- *     def __init__( self, K_0, f, fs ) -> None:
+ *     def __init__( self, K_0, f, fs, f_multiplier=1 ) -> None:
  *         self.K_0 = K_0
  */
   __pyx_t_4 = __Pyx_Py3ClassCreate(((PyObject*)&PyType_Type), __pyx_n_s_NumericallyControlledOscillator, __pyx_empty_tuple, __pyx_t_2, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 24, __pyx_L1_error)
@@ -4904,55 +5096,56 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "Orig_PLL.py":42
+  /* "Orig_PLL.py":47
  * 
  * 
  * class PhaseLockedLoop:             # <<<<<<<<<<<<<<
- *     def __init__( self, K_i, K_p, K_0, pll_f, fs ) -> None:
+ *     def __init__( self, K_i, K_p, K_0, pll_f, fs, f_multiplier=1 ) -> None:
  *         self.pd = PhaseDetector()
  */
-  __pyx_t_2 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_PhaseLockedLoop, __pyx_n_s_PhaseLockedLoop, (PyObject *) NULL, __pyx_n_s_Orig_PLL, (PyObject *) NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_PhaseLockedLoop, __pyx_n_s_PhaseLockedLoop, (PyObject *) NULL, __pyx_n_s_Orig_PLL, (PyObject *) NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
 
-  /* "Orig_PLL.py":43
+  /* "Orig_PLL.py":48
  * 
  * class PhaseLockedLoop:
- *     def __init__( self, K_i, K_p, K_0, pll_f, fs ) -> None:             # <<<<<<<<<<<<<<
+ *     def __init__( self, K_i, K_p, K_0, pll_f, fs, f_multiplier=1 ) -> None:             # <<<<<<<<<<<<<<
  *         self.pd = PhaseDetector()
  *         self.lf = LoopFilter( K_i, K_p, fs )
  */
-  __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 43, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_return, __pyx_n_s_None) < 0) __PYX_ERR(0, 43, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_8Orig_PLL_15PhaseLockedLoop_1__init__, 0, __pyx_n_s_PhaseLockedLoop___init, NULL, __pyx_n_s_Orig_PLL, __pyx_d, ((PyObject *)__pyx_codeobj__15)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 43, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_return, __pyx_n_s_None) < 0) __PYX_ERR(0, 48, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_8Orig_PLL_15PhaseLockedLoop_1__init__, 0, __pyx_n_s_PhaseLockedLoop___init, NULL, __pyx_n_s_Orig_PLL, __pyx_d, ((PyObject *)__pyx_codeobj__16)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_3, __pyx_tuple__17);
   __Pyx_CyFunction_SetAnnotationsDict(__pyx_t_3, __pyx_t_4);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_init, __pyx_t_3) < 0) __PYX_ERR(0, 43, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_init, __pyx_t_3) < 0) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "Orig_PLL.py":48
- *         self.nco = NumericallyControlledOscillator( K_0, pll_f, fs )
+  /* "Orig_PLL.py":53
+ *         self.nco = NumericallyControlledOscillator( K_0, pll_f, fs, f_multiplier )
  *         self.lastSinOut = 0
  *     def proc( self, in_, ):             # <<<<<<<<<<<<<<
  *         e_D = self.pd.proc( in_, self.lastSinOut )
  * 
  */
-  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_8Orig_PLL_15PhaseLockedLoop_3proc, 0, __pyx_n_s_PhaseLockedLoop_proc, NULL, __pyx_n_s_Orig_PLL, __pyx_d, ((PyObject *)__pyx_codeobj__17)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_8Orig_PLL_15PhaseLockedLoop_3proc, 0, __pyx_n_s_PhaseLockedLoop_proc, NULL, __pyx_n_s_Orig_PLL, __pyx_d, ((PyObject *)__pyx_codeobj__19)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 53, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_proc, __pyx_t_3) < 0) __PYX_ERR(0, 48, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_proc, __pyx_t_3) < 0) __PYX_ERR(0, 53, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "Orig_PLL.py":42
+  /* "Orig_PLL.py":47
  * 
  * 
  * class PhaseLockedLoop:             # <<<<<<<<<<<<<<
- *     def __init__( self, K_i, K_p, K_0, pll_f, fs ) -> None:
+ *     def __init__( self, K_i, K_p, K_0, pll_f, fs, f_multiplier=1 ) -> None:
  *         self.pd = PhaseDetector()
  */
-  __pyx_t_3 = __Pyx_Py3ClassCreate(((PyObject*)&PyType_Type), __pyx_n_s_PhaseLockedLoop, __pyx_empty_tuple, __pyx_t_2, NULL, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_Py3ClassCreate(((PyObject*)&PyType_Type), __pyx_n_s_PhaseLockedLoop, __pyx_empty_tuple, __pyx_t_2, NULL, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_PhaseLockedLoop, __pyx_t_3) < 0) __PYX_ERR(0, 42, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_PhaseLockedLoop, __pyx_t_3) < 0) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
@@ -7897,7 +8090,7 @@ __Pyx_PyType_GetName(PyTypeObject* tp)
                                                __pyx_n_s_name);
     if (unlikely(name == NULL) || unlikely(!PyUnicode_Check(name))) {
         PyErr_Clear();
-        Py_XSETREF(name, __Pyx_NewRef(__pyx_n_s__18));
+        Py_XSETREF(name, __Pyx_NewRef(__pyx_n_s__20));
     }
     return name;
 }

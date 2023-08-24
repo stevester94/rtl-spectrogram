@@ -2906,7 +2906,7 @@ static PyObject *__pyx_pf_8Fast_PLL_20Fast_PhaseLockedLoop_2proc(CYTHON_UNUSED P
  *         self.nco_theta_multi += self.f_multiplier * (2*np.pi*self.nco_f/self.fs + self.K_0 * e_F)
  *         if self.nco_theta > 2*np.pi:             # <<<<<<<<<<<<<<
  *             self.nco_theta -= 2*np.pi
- * 
+ *         if self.nco_theta_multi > 2*np.pi:
  */
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_nco_theta); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 33, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -2929,8 +2929,8 @@ static PyObject *__pyx_pf_8Fast_PLL_20Fast_PhaseLockedLoop_2proc(CYTHON_UNUSED P
  *         self.nco_theta_multi += self.f_multiplier * (2*np.pi*self.nco_f/self.fs + self.K_0 * e_F)
  *         if self.nco_theta > 2*np.pi:
  *             self.nco_theta -= 2*np.pi             # <<<<<<<<<<<<<<
- * 
- *         cosOut = np.cos( self.nco_theta_multi  )
+ *         if self.nco_theta_multi > 2*np.pi:
+ *             self.nco_theta_multi -= 2*np.pi
  */
     __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_nco_theta); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 34, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
@@ -2954,23 +2954,80 @@ static PyObject *__pyx_pf_8Fast_PLL_20Fast_PhaseLockedLoop_2proc(CYTHON_UNUSED P
  *         self.nco_theta_multi += self.f_multiplier * (2*np.pi*self.nco_f/self.fs + self.K_0 * e_F)
  *         if self.nco_theta > 2*np.pi:             # <<<<<<<<<<<<<<
  *             self.nco_theta -= 2*np.pi
+ *         if self.nco_theta_multi > 2*np.pi:
+ */
+  }
+
+  /* "Fast_PLL.py":35
+ *         if self.nco_theta > 2*np.pi:
+ *             self.nco_theta -= 2*np.pi
+ *         if self.nco_theta_multi > 2*np.pi:             # <<<<<<<<<<<<<<
+ *             self.nco_theta_multi -= 2*np.pi
+ * 
+ */
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_nco_theta_multi); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_pi); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_5 = __Pyx_PyInt_MultiplyCObj(__pyx_int_2, __pyx_t_3, 2, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_5, Py_GT); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely((__pyx_t_6 < 0))) __PYX_ERR(0, 35, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (__pyx_t_6) {
+
+    /* "Fast_PLL.py":36
+ *             self.nco_theta -= 2*np.pi
+ *         if self.nco_theta_multi > 2*np.pi:
+ *             self.nco_theta_multi -= 2*np.pi             # <<<<<<<<<<<<<<
+ * 
+ *         cosOut = np.cos( self.nco_theta_multi  )
+ */
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_nco_theta_multi); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 36, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 36, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_pi); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_5 = __Pyx_PyInt_MultiplyCObj(__pyx_int_2, __pyx_t_1, 2, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 36, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_1 = PyNumber_InPlaceSubtract(__pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_nco_theta_multi, __pyx_t_1) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+    /* "Fast_PLL.py":35
+ *         if self.nco_theta > 2*np.pi:
+ *             self.nco_theta -= 2*np.pi
+ *         if self.nco_theta_multi > 2*np.pi:             # <<<<<<<<<<<<<<
+ *             self.nco_theta_multi -= 2*np.pi
  * 
  */
   }
 
-  /* "Fast_PLL.py":36
- *             self.nco_theta -= 2*np.pi
+  /* "Fast_PLL.py":38
+ *             self.nco_theta_multi -= 2*np.pi
  * 
  *         cosOut = np.cos( self.nco_theta_multi  )             # <<<<<<<<<<<<<<
  *         sinOut = -np.sin( self.nco_theta  )
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_cos); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_cos); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_nco_theta_multi); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_nco_theta_multi); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_4 = NULL;
   __pyx_t_7 = 0;
@@ -2989,26 +3046,26 @@ static PyObject *__pyx_pf_8Fast_PLL_20Fast_PhaseLockedLoop_2proc(CYTHON_UNUSED P
     __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_7, 1+__pyx_t_7);
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   }
   __pyx_v_cosOut = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "Fast_PLL.py":37
+  /* "Fast_PLL.py":39
  * 
  *         cosOut = np.cos( self.nco_theta_multi  )
  *         sinOut = -np.sin( self.nco_theta  )             # <<<<<<<<<<<<<<
  * 
  *         self.lastSinOut = sinOut
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_sin); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_sin); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_nco_theta); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_nco_theta); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   __pyx_t_7 = 0;
@@ -3027,31 +3084,31 @@ static PyObject *__pyx_pf_8Fast_PLL_20Fast_PhaseLockedLoop_2proc(CYTHON_UNUSED P
     __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_5, __pyx_callargs+1-__pyx_t_7, 1+__pyx_t_7);
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 39, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   }
-  __pyx_t_5 = PyNumber_Negative(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_t_5 = PyNumber_Negative(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_sinOut = __pyx_t_5;
   __pyx_t_5 = 0;
 
-  /* "Fast_PLL.py":39
+  /* "Fast_PLL.py":41
  *         sinOut = -np.sin( self.nco_theta  )
  * 
  *         self.lastSinOut = sinOut             # <<<<<<<<<<<<<<
  *         return cosOut, sinOut, e_D, e_F
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_lastSinOut, __pyx_v_sinOut) < 0) __PYX_ERR(0, 39, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_lastSinOut, __pyx_v_sinOut) < 0) __PYX_ERR(0, 41, __pyx_L1_error)
 
-  /* "Fast_PLL.py":40
+  /* "Fast_PLL.py":42
  * 
  *         self.lastSinOut = sinOut
  *         return cosOut, sinOut, e_D, e_F             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_5 = PyTuple_New(4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_t_5 = PyTuple_New(4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_INCREF(__pyx_v_cosOut);
   __Pyx_GIVEREF(__pyx_v_cosOut);
