@@ -8,6 +8,7 @@ from Fast_PLL import Fast_PhaseLockedLoop as Cyth_Fast_PhaseLockedLoop
 
 from src.Orig_PLL import PhaseLockedLoop
 from src.Fast_PLL import Fast_PhaseLockedLoop
+from Fast_Cython_PLL import Fast_Cython_v2_PhaseLockedLoop
 
 import numpy as np
 
@@ -48,6 +49,11 @@ cyth_pll = Cyth_PhaseLockedLoop( K_i, K_p, K_0, in_f_Hz, fs )
 cyth_fast_pll = Cyth_Fast_PhaseLockedLoop( K_i, K_p, K_0, in_f_Hz, fs )
 pll = PhaseLockedLoop( K_i, K_p, K_0, in_f_Hz, fs )
 fast_pll = Fast_PhaseLockedLoop( K_i, K_p, K_0, in_f_Hz, fs )
+
+fast_pll_v2 = Fast_Cython_v2_PhaseLockedLoop( K_i, K_p, K_0, in_f_Hz, fs )
+
+_, _, avg_sps = speed_test_a_PLL( fast_pll_v2, 5 )
+print( "Fast PLL v2 avg Kilo samples per second:", avg_sps/1000.0 )
 
 _, _, avg_sps = speed_test_a_PLL( cyth_pll, 5 )
 print( "Original PLL Cythonized avg Kilo samples per second:", avg_sps/1000.0 )
